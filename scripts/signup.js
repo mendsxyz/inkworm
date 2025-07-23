@@ -3,7 +3,7 @@ import { setLoading } from './helpers.js';
 const signupForm = document.querySelector('.signup-form');
 const signupBtn = document.querySelector('.signup-btn');
 
-const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx8VMeTzCtQ-GRH9-vkkzCDmVvFe0JPVGnajyUf1wNhM-kShyACVNeWxNBTE6rUBnyn/exec'; // replace this
+const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzOSg1z5mOgkRUpx4QqakxaHz3fhZopy2yNfinacfB2TyrZI4KCJ0lfnxkQg1etPJW1/exec'; // replace this
 
 signupForm.addEventListener('submit', async (e) => {
   e.preventDefault();
