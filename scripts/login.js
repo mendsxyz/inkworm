@@ -1,3 +1,4 @@
+//scripts/login
 import { setLoading } from './helpers.js';
 
 const loginForm = document.querySelector('.login-form');
