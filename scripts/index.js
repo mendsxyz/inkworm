@@ -1,5 +1,5 @@
 //scripts/index
-import { toggleTheme, setPageLoading, storageAvailable, setLoading, setActive, toggleSidebar, navTo, switchThumbnails, popupCard, selectPlan } from './helpers.js';
+import { toggleTheme, setPageLoading, storageAvailable, notify, setLoading, setActive, toggleSidebar, navTo, switchThumbnails, popupCard, selectPlan } from './helpers.js';
 
 const pageLoad = document.querySelector('.page-load');
 setPageLoading(pageLoad);
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const userUID = checkData.user.uid;
           
           document.querySelectorAll('.user-populate-info').forEach(el => {
-            if (el.dataset.info === 'greeting') el.textContent = `Hi, ${userName ?? 'User'}`;
+            if (el.dataset.info === 'greeting') el.textContent = `${userName ? 'Hi, ' + userName : 'User'}`;
           });
         }
       } catch (err) {
