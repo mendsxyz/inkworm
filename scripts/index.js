@@ -148,8 +148,15 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (checkData.exists) {
         document.querySelectorAll('.user-populate-info').forEach(el => {
-          if (el.dataset.info === 'greeting') el.textContent = `Hi, ${checkData.name}`;
+          if (el.dataset.info === 'greeting') el.textContent = `Hi, ${checkData?.name ?? 'User'}`;
         });
+      } else {
+        notify(
+          "Toast", "Auto-dismiss",
+          `<span class="icon filled">error</span>`,
+          `Unable to fetch data, logging you out..`,
+          null, null, null, false, null, null, 10000
+        );
       }
     } catch (err) {
       notify(
