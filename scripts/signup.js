@@ -26,9 +26,9 @@ signupForm.addEventListener("submit", async (e) => {
     }
 
     const data = await res.json();
-    console.log("Response:", data);
+    alert("Response: " + data);
   } catch (err) {
-    console.error("Fetch error:", err);
+    alert("Fetch error: " + err);
   } finally {
     setLoading(signupBtn, false);
   }
