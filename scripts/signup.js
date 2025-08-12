@@ -26,7 +26,7 @@ signupForm.addEventListener("submit", async (e) => {
     const checkData = await checkRes.json();
 
     if (checkData.exists) {
-      alert("This email already exists. Please use a different one.");
+      alert("This email already exists. Please use a different one or login to your account.");
       return;
     }
     
