@@ -7,10 +7,10 @@ const signupBtn = document.querySelector('.signup-btn');
 signupForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   setLoading(signupBtn, true);
-
+  
   const email = signupForm.querySelector("#set-email").value.trim();
   const password = signupForm.querySelector("#set-password").value;
-
+  
   try {
     const checkRes = await fetch(
       `https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec?email=${encodeURIComponent(email)}`,
@@ -18,13 +18,13 @@ signupForm.addEventListener("submit", async (e) => {
         method: "GET",
       }
     );
-
+    
     if (!checkRes.ok) {
       throw new Error(`HTTP error! Status: ${checkRes.status}`);
     }
-
+    
     const checkData = await checkRes.json();
-
+    
     if (checkData.exists) {
       notify(
         "Popup", "Dismissible", null, null,
@@ -43,7 +43,7 @@ signupForm.addEventListener("submit", async (e) => {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
-
+    
     const res = await fetch(
       "https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec",
       {
@@ -51,15 +51,30 @@ signupForm.addEventListener("submit", async (e) => {
         body: formData,
       }
     );
-
+    
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
-
+    
     const data = await res.json();
-    alert("Response: " + JSON.stringify(data));
+    notify(
+      "Toast", "Auto-dismiss",
+      `<span class="icon filled">check_circle</span>`,
+      `Signed up successfully!`,
+      null, null, null, false, null, null, 5000
+    );
   } catch (err) {
-    alert("An error occurred: " + err);
+    notify(
+      "Popup", "Dismissible", null, null,
+      `<span class="icon filled">error</span>`,
+      "An error occurred",
+      "Sorry, we're working on it and you can always try again later.",
+      true, { close: "Got it", cta: null },
+      () => {},
+      () => {
+        document.querySelector('.notification')?.remove();
+      }
+    );
   } finally {
     setLoading(signupBtn, false);
   }
