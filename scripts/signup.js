@@ -1,7 +1,7 @@
 //scripts/signup
 import { notify, redirect, setLoading } from './helpers.js';
 
-const path = "https://inkworm.vercel.app/";
+const path = "https://inkworm.vercel.app/pages/";
 const signupForm = document.querySelector('.signup-form');
 const signupBtn = document.querySelector('.signup-btn');
 

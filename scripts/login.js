@@ -1,7 +1,7 @@
 //scripts/login
 import { notify, redirect, setLoading } from './helpers.js';
 
-const path = 'https://inkworm.vercel.app/';
+const path = 'https://inkworm.vercel.app/pages/';
 const loginForm = document.querySelector('.login-form');
 const loginBtn = document.querySelector('.login-btn');
 
