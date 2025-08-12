@@ -9,7 +9,7 @@ loginForm.addEventListener("submit", async (e) => {
   setLoading(loginBtn, true);
 
   const email = loginForm.querySelector("#login-email").value.trim();
-  const password = loginForm.querySelector("#login-password").value;
+  const password = loginForm.querySelector("#login-password").value.trim();
 
   try {
     const checkRes = await fetch(
