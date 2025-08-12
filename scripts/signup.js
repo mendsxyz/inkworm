@@ -11,11 +11,29 @@ signupForm.addEventListener("submit", async (e) => {
   const email = signupForm.querySelector("#set-email").value.trim();
   const password = signupForm.querySelector("#set-password").value;
 
-  const formData = new FormData();
-  formData.append("email", email);
-  formData.append("password", password);
-
   try {
+    const checkRes = await fetch(
+      `https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec?email=${encodeURIComponent(email)}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!checkRes.ok) {
+      throw new Error(`HTTP error! Status: ${checkRes.status}`);
+    }
+
+    const checkData = await checkRes.json();
+
+    if (checkData.exists) {
+      alert("This email already exists. Please use a different one.");
+      return;
+    }
+    
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+
     const res = await fetch(
       "https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec",
       {
@@ -29,9 +47,9 @@ signupForm.addEventListener("submit", async (e) => {
     }
 
     const data = await res.json();
-    alert("Response: " + data);
+    alert("Response: " + JSON.stringify(data));
   } catch (err) {
-    alert("Fetch error: " + err);
+    alert("An error occurred: " + err);
   } finally {
     setLoading(signupBtn, false);
   }
