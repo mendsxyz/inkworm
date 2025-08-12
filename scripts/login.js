@@ -28,7 +28,7 @@ loginForm.addEventListener("submit", async (e) => {
     if (!checkData.exists) {
       alert("This email doesn't exist. Please sign up instead.");
       return;
-    } else if (checkData.password === password) {
+    } else if (checkData.password == password) {
       alert("Login successful!");
     } else {
       alert("Incorrect password. Please try again.");
