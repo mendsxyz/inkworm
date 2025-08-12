@@ -93,7 +93,7 @@ export function notify(
           hasButtons
             ? `<div class="popup-actions">
                  ${build === 'Dismissible' ? `<button class="popup-close">${buttonTexts.close}</button>` : ''}
-                 <button class="popup-cta">${buttonTexts.cta}</button>
+                 ${buttonTexts.cta !== null ? `<button class="popup-cta">${buttonTexts.cta}</button>` : ''}
                </div>`
             : ''
         }
@@ -126,6 +126,12 @@ export function notify(
       runbackFunction();
       wrapper.remove();
     });
+  }
+}
+
+export function redirect(status, to, delay) {
+  if (status === '200') {
+    setTimeout(() => window.location.href = to, delay);
   }
 }
 

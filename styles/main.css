@@ -268,7 +268,7 @@ a {
 }
 
 .notification-toast {
-  top: 2rem;
+  top: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -285,12 +285,13 @@ body:has(.notification-popup) > *:not(.notification) {
 
 .toast {
   overflow: hidden;
+  position: relative;
   display: flex;
   align-items: center;
   gap: 1rem;
   background: var(--secondary);
-  padding: 0.5rem 1rem;
-  border-radius: 0.75rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
   width: 100%;
   min-width: 340px;
   max-width: 400px;
@@ -333,9 +334,9 @@ body:has(.notification-popup) > *:not(.notification) {
 
 .toast-progress {
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
-  height: 4px;
+  height: 3px;
   width: 100%;
   background: var(--accent);
   border-radius: 0;
@@ -349,7 +350,7 @@ body:has(.notification-popup) > *:not(.notification) {
   min-width: 340px;
   max-width: 340px;
   border: 1px solid var(--neutral);
-  border-radius: 1rem;
+  border-radius: 1.4rem;
   text-align: center;
   animation: fadeIn 0.3s ease-in-out;
 }

@@ -1,6 +1,7 @@
 //scripts/signup
-import { setLoading, notify } from './helpers.js';
+import { notify, redirect, setLoading } from './helpers.js';
 
+const path = "https://inkworm.vercel.app/";
 const signupForm = document.querySelector('.signup-form');
 const signupBtn = document.querySelector('.signup-btn');
 
@@ -31,7 +32,7 @@ signupForm.addEventListener("submit", async (e) => {
         `<span class="icon filled">warning</span>`,
         "Email already exists!",
         "The email you provided is already in use by an existing account. Please login to your account instead.",
-        true, { close: "Cancel", cta: "Try again" },
+        true, { close: "Got it", cta: null },
         () => {},
         () => {
           document.querySelector('.notification')?.remove();
@@ -57,18 +58,21 @@ signupForm.addEventListener("submit", async (e) => {
     }
     
     const data = await res.json();
+    
     notify(
       "Toast", "Auto-dismiss",
       `<span class="icon filled">check_circle</span>`,
       `Signed up successfully!`,
       null, null, null, false, null, null, 10000
     );
+    
+    redirect('200', `${path}/profile.html`, 200);
   } catch (err) {
     notify(
       "Popup", "Dismissible", null, null,
       `<span class="icon filled">error</span>`,
-      "An error occurred",
-      "Sorry, we're working on it and you can always try again later.",
+      `${err}`,
+      "Sorry for the inconvenience. We're working to get it fixed and you can always try again later",
       true, { close: "Got it", cta: null },
       () => {},
       () => {
