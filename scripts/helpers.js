@@ -52,7 +52,7 @@ export function notify(
   buttonTexts = { close: "Close", cta: "Okay" },
   runbackFunction = () => {},
   ctaFunction = () => {},
-  duration = 3000
+  duration = 10000
 ) {
   // Remove any existing notification
   const existing = document.querySelector('.notification');

@@ -61,7 +61,7 @@ signupForm.addEventListener("submit", async (e) => {
       "Toast", "Auto-dismiss",
       `<span class="icon filled">check_circle</span>`,
       `Signed up successfully!`,
-      null, null, null, false, null, null, 20000
+      null, null, null, false, null, null, 10000
     );
   } catch (err) {
     notify(
