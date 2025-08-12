@@ -11,13 +11,16 @@ signupForm.addEventListener("submit", async (e) => {
   const email = signupForm.querySelector("#set-email").value.trim();
   const password = signupForm.querySelector("#set-password").value;
 
+  const formData = new FormData();
+  formData.append("email", email);
+  formData.append("password", password);
+
   try {
     const res = await fetch(
       "https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify([email, password]),
+        body: formData,
       }
     );
 
