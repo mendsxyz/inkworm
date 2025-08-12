@@ -1,5 +1,5 @@
 //scripts/login
-import { notify, redirect, setLoading } from './helpers.js';
+import { checkLocallySaved, notify, redirect, setLoading } from './helpers.js';
 
 const path = 'https://inkworm.vercel.app/pages/';
 const loginForm = document.querySelector('.login-form');
@@ -40,6 +40,21 @@ loginForm.addEventListener("submit", async (e) => {
       );
       return;
     } else if (checkData.password == password) {
+      if (!checkLocallySaved(email)) {
+        notify(
+          "Popup", "Dismissible", null, null,
+          `<span class="icon filled">error</span>`,
+          "Local ref not found",
+          "For a better experience, please enable cookies and site data in your browser settings and then try signing up",
+          true, { close: "Got it", cta: null },
+          () => {},
+          () => {
+            document.querySelector('.notification')?.remove();
+          }
+        );
+        return;
+      }
+      
       notify(
         "Toast", "Auto-dismiss",
         `<span class="icon filled">check_circle</span>`,
@@ -47,7 +62,7 @@ loginForm.addEventListener("submit", async (e) => {
         null, null, null, false, null, null, 10000
       );
       
-      redirect('200', `${path}/profile.html`, 5000);
+      redirect('200', `${path}/profile.html`, 1000);
     } else {
       notify(
         "Toast", "Auto-dismiss",

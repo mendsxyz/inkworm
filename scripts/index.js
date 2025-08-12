@@ -125,4 +125,29 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+  
+  document.querySelectorAll('.user-info').forEach(el => {
+    async function populate() {
+      try {
+        const checkData = await fetch(
+          `https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec?email=${encodeURIComponent(email)}`,
+          {
+            method: 'GET'
+          }
+        );
+        
+        if (!checkRes.ok) {
+          throw new Error(`HTTP error! Status: ${checkRes.status}`);
+        }
+        
+        const checkData = await checkRes.json();
+        
+        if (checkData.exists) {
+          if (el.dataset.info === 'greeting') el.textContent = `Hi, ${checkData.name}`;
+        }
+      } catch (err) {
+        
+      }
+    }
+  });
 });

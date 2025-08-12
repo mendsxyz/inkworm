@@ -183,6 +183,20 @@ button.button-loading::after {
   border: 0;
 }
 
+.tab-group {
+  position: relative;
+  background: red;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+}
+
+.tab-group * {
+  flex-shrink: 0;
+}
+
 a {
   color: var(--accent);
   text-decoration: none;

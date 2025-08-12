@@ -129,6 +129,26 @@ export function notify(
   }
 }
 
+export function saveLocally(data1, data2) {
+  if (!storageAvailable()) return false;
+  
+  const inkwormLocalEnabled = JSON.parse(localStorage.getItem('inkworm-362L0oc18al-7eyn4wlEd')) || [];
+  const existingData = inkwormLocalEnabled.find(obj => obj.email === data1);
+  const localData = {
+    email: data1,
+    uid: data2
+  }
+  
+  if (!existingData) inkwormLocalEnabled.push(localData);
+  localStorage.setItem('inkworm-362L0oc18al-7eyn4wlEd', JSON.stringify(inkwormLocalEnabled));
+}
+
+export function checkLocallySaved(data1) {
+  const inkwormLocalEnabled = JSON.parse(localStorage.getItem('inkworm-362L0oc18al-7eyn4wlEd')) || [];
+  const existingData = inkwormLocalEnabled.find(obj => obj.email === data1);
+  if (!existingData) return false;
+}
+
 export function redirect(status, to, delay) {
   if (status === '200') {
     setTimeout(() => window.location.href = to, delay);

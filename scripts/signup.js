@@ -1,5 +1,5 @@
 //scripts/signup
-import { notify, redirect, setLoading } from './helpers.js';
+import { notify, saveLocally, redirect, setLoading } from './helpers.js';
 
 const path = "https://inkworm.vercel.app/pages/";
 const signupForm = document.querySelector('.signup-form');
@@ -10,7 +10,9 @@ signupForm.addEventListener("submit", async (e) => {
   setLoading(signupBtn, true);
   
   const email = signupForm.querySelector("#set-email").value.trim();
-  const password = signupForm.querySelector("#set-password").value;
+  const password = signupForm.querySelector("#set-password").value.trim();
+  const name = signupForm.querySelector("#set-name").value.trim();
+  const uid = "uid-" + Math.floor(Math.random() * 100000000);
   
   try {
     const checkRes = await fetch(
@@ -44,6 +46,9 @@ signupForm.addEventListener("submit", async (e) => {
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
+    formData.append("name", name);
+    formData.append("uid", uid);
+    formData.append("plan", "free");
     
     const res = await fetch(
       "https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec",
@@ -58,6 +63,22 @@ signupForm.addEventListener("submit", async (e) => {
     }
     
     const data = await res.json();
+    if (!saveLocally(email, uid)) {
+      notify(
+        "Popup", "Dismissible", null, null,
+        `<span class="icon filled">error</span>`,
+        "localStorge is disabled",
+        "For a better app experience, please enable cookies and site data in your browser settings before attempting to sign up",
+        true, { close: "Got it", cta: null },
+        () => {},
+        () => {
+          document.querySelector('.notification')?.remove();
+        }
+      );
+      return;
+    }
+    
+    saveLocally(email, uid);
     
     notify(
       "Toast", "Auto-dismiss",
@@ -66,7 +87,7 @@ signupForm.addEventListener("submit", async (e) => {
       null, null, null, false, null, null, 10000
     );
     
-    redirect('200', `${path}/profile.html`, 200);
+    redirect('200', `${path}/profile.html`, 1000);
   } catch (err) {
     notify(
       "Popup", "Dismissible", null, null,
