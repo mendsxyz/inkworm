@@ -132,8 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = inkwormLocalEnabled?.find(obj => obj.email != null);
     const email = data?.email ?? 'no@email.record';
     
-    alert(email);
-    
     if (!email.includes('no@email.record')) {
       try {
         const checkRes = await fetch(
@@ -150,8 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkData = await checkRes.json();
         
         if (checkData.exists) {
+          const userName = checkData.user.name;
+          const userUID = checkData.user.uid;
+          
           document.querySelectorAll('.user-populate-info').forEach(el => {
-            if (el.dataset.info === 'greeting') el.textContent = `Hi, ${checkData.name ?? 'User'}`;
+            if (el.dataset.info === 'greeting') el.textContent = `Hi, ${userName ?? 'User'}`;
           });
         }
       } catch (err) {
