@@ -126,34 +126,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  document.querySelectorAll('.user-info').forEach(el => {
-    async function populate() {
-      try {
-        const checkRes = await fetch(
-          `https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec?email=${encodeURIComponent(email)}`,
-          {
-            method: 'GET'
-          }
-        );
-        
-        if (!checkRes.ok) {
-          throw new Error(`HTTP error! Status: ${checkRes.status}`);
+  // POPULATE_USER_INFO
+  async function populate() {
+    try {
+      const checkRes = await fetch(
+        `https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec?email=${encodeURIComponent(email)}`,
+        {
+          method: 'GET'
         }
-        
-        const checkData = await checkRes.json();
-        
-        if (checkData.exists) {
-          if (el.dataset.info === 'greeting') el.textContent = `Hi, ${checkData.name}`;
-        }
-      } catch (err) {
-        notify(
-          "Toast", "Auto-dismiss",
-          `<span class="icon filled">error</span>`,
-          `Unable to fetch data, logging you out..`,
-          null, null, null, false, null, null, 10000
-        );
+      );
+      
+      if (!checkRes.ok) {
+        throw new Error(`HTTP error! Status: ${checkRes.status}`);
       }
+      
+      const checkData = await checkRes.json();
+      
+      if (checkData.exists) {
+        document.querySelectorAll('.user-populate-info').forEach(el => {
+          if (el.dataset.info === 'greeting') el.textContent = `Hi, ${checkData.name}`;
+        });
+      }
+    } catch (err) {
+      notify(
+        "Toast", "Auto-dismiss",
+        `<span class="icon filled">error</span>`,
+        `Unable to fetch data, logging you out..`,
+        null, null, null, false, null, null, 10000
+      );
     }
-    populate();
-  });
+  }
+  populate();
 });
