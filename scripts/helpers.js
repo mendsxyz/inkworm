@@ -52,7 +52,7 @@ export function notify(
   buttonTexts = { close: "Close", cta: "Okay" },
   runbackFunction = () => {},
   ctaFunction = () => {},
-  duration = 10000
+  duration = undefined ?? 5000
 ) {
   // Remove any existing notification
   const existing = document.querySelector('.notification');
@@ -186,12 +186,14 @@ export function toggleSidebar(sidebarId, isActive = true) {
   if (!sidebarId) return;
   
   if (!isActive) {
+    document.body.style.overflow = 'hidden';
     document.querySelector(`${sidebarId}`).classList.add('active');
     document.addEventListener('click', function(e) {
       if (!e.target.matches('.sidebar-toggle-btn') &&
         !e.target.matches('.sidebar-toggle-btn *') &&
         !e.target.matches('.user-sidebar')
       ) {
+        if (!document.querySelector('.popup-card-active')) document.body.style.overflow = 'unset';
         document.querySelector(`${sidebarId}`).classList.remove('active');
       }
     });
@@ -249,6 +251,7 @@ export function popupCard(title, body, isActive = false) {
     `;
     
     document.querySelector('.close-popup-card-btn')?.addEventListener('click', () => {
+      document.body.style.overflow = 'unset';
       document.body.classList.remove('popup-card-active');
       card.remove();
       isActive = false;

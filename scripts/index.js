@@ -126,8 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  // POPULATE_USER_INFO
-  async function populate() {
+  // SYNC_USER_INFO
+  async function sync() {
     const inkwormLocalEnabled = JSON.parse(localStorage.getItem('inkworm-362L0oc18al-7eyn4wlEd')) || [];
     const data = inkwormLocalEnabled?.find(obj => obj.email != null);
     const email = data?.email ?? 'no@email.record';
@@ -155,6 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (el.dataset.info === 'greeting') el.textContent = `${userName ? 'Hi, ' + userName : 'User'}`;
           });
         }
+        
+        document.body.style.pointerEvents = 'auto';
       } catch (err) {
         notify(
           "Toast", "Auto-dismiss",
@@ -162,15 +164,19 @@ document.addEventListener('DOMContentLoaded', () => {
           `Unable to fetch data, logging you out..`,
           null, null, null, false, null, null, 10000
         );
+        
+        //document.body.style.pointerEvents = 'none';
       }
     } else {
       notify(
         "Toast", "Auto-dismiss",
         `<span class="icon filled">error</span>`,
         `Unable to fetch data, logging you out..`,
-        null, null, null, false, null, null, 10000
+        null, null, null, false, null, null, 5000
       );
+      
+      //document.body.style.pointerEvents = 'none';
     }
   }
-  populate();
+  sync();
 });
