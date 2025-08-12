@@ -128,6 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // POPULATE_USER_INFO
   async function populate() {
+    const inkwormLocalEnabled = JSON.parse(localStorage.getItem('inkworm-362L0oc18al-7eyn4wlEd')) || [];
+    const data = inkwormLocalEnabled?.find(obj => obj.email != null);
+    const email = data?.email ?? 'no_email_record';
+    
     try {
       const checkRes = await fetch(
         `https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec?email=${encodeURIComponent(email)}`,
