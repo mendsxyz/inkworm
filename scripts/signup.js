@@ -1,5 +1,5 @@
 //scripts/signup
-import { notify, saveLocally, redirect, setLoading } from './helpers.js';
+import { storageAvailable, notify, saveLocally, redirect, setLoading } from './helpers.js';
 
 const path = "https://inkworm.vercel.app/pages/";
 const signupForm = document.querySelector('.signup-form');
@@ -63,7 +63,7 @@ signupForm.addEventListener("submit", async (e) => {
     }
     
     const data = await res.json();
-    if (!saveLocally(email, uid)) {
+    if (!storageAvailable()) {
       notify(
         "Popup", "Dismissible", null, null,
         `<span class="icon filled">error</span>`,

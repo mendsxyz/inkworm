@@ -44,7 +44,7 @@ loginForm.addEventListener("submit", async (e) => {
         notify(
           "Popup", "Dismissible", null, null,
           `<span class="icon filled">error</span>`,
-          "Local ref not found",
+          "Data not found",
           "For a better experience, please enable cookies and site data in your browser settings and then try signing up",
           true, { close: "Got it", cta: null },
           () => {},

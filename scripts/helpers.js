@@ -130,7 +130,7 @@ export function notify(
 }
 
 export function saveLocally(data1, data2) {
-  if (!storageAvailable()) return false;
+  if (!storageAvailable()) return;
   
   const inkwormLocalEnabled = JSON.parse(localStorage.getItem('inkworm-362L0oc18al-7eyn4wlEd')) || [];
   const existingData = inkwormLocalEnabled.find(obj => obj.email === data1);
