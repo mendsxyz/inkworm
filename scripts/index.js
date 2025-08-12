@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.user-info').forEach(el => {
     async function populate() {
       try {
-        const checkData = await fetch(
+        const checkRes = await fetch(
           `https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec?email=${encodeURIComponent(email)}`,
           {
             method: 'GET'
