@@ -284,6 +284,7 @@ body:has(.notification-popup) > *:not(.notification) {
 }
 
 .toast {
+  overflow: hidden;
   display: flex;
   align-items: center;
   gap: 1rem;
