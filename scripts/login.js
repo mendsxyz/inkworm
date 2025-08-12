@@ -4,12 +4,12 @@ import { setLoading } from './helpers.js';
 const loginForm = document.querySelector('.login-form');
 const loginBtn = document.querySelector('.login-btn');
 
-signupForm.addEventListener("submit", async (e) => {
+loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  setLoading(signupBtn, true);
+  setLoading(loginBtn, true);
 
-  const email = loginForm.querySelector("#email").value.trim();
-  const password = loginForm.querySelector("#password").value;
+  const email = loginForm.querySelector("#login-email").value.trim();
+  const password = loginForm.querySelector("#login-password").value;
 
   try {
     const checkRes = await fetch(
@@ -24,8 +24,7 @@ signupForm.addEventListener("submit", async (e) => {
     }
 
     const checkData = await checkRes.json();
-    const password = signupForm.querySelector("#set-password").value; // Assuming this is now a login form
-
+    
     if (!checkData.exists) {
       alert("This email doesn't exist. Please sign up instead.");
       return;
@@ -37,6 +36,6 @@ signupForm.addEventListener("submit", async (e) => {
   } catch (err) {
     alert("An error occurred: " + err);
   } finally {
-    setLoading(signupBtn, false);
+    setLoading(loginBtn, false);
   }
 });
