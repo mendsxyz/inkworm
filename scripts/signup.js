@@ -1,5 +1,5 @@
 //scripts/signup
-import { setLoading } from './helpers.js';
+import { setLoading, notify } from './helpers.js';
 
 const signupForm = document.querySelector('.signup-form');
 const signupBtn = document.querySelector('.signup-btn');
@@ -26,7 +26,17 @@ signupForm.addEventListener("submit", async (e) => {
     const checkData = await checkRes.json();
 
     if (checkData.exists) {
-      alert("This email already exists. Please use a different one or login to your account.");
+      notify(
+        "Popup", "Dismissible", null, null,
+        `<span class="icon filled">warning</span>`,
+        "Email already exists!",
+        "The email you provided is already in use by an existing account. Please login to your account instead.",
+        true, { close: "Cancel", cta: "Try again" },
+        () => {},
+        () => {
+          document.querySelector('.notification')?.remove();
+        }
+      );
       return;
     }
     
