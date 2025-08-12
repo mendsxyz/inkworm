@@ -146,8 +146,14 @@ document.addEventListener('DOMContentLoaded', () => {
           if (el.dataset.info === 'greeting') el.textContent = `Hi, ${checkData.name}`;
         }
       } catch (err) {
-        
+        notify(
+          "Toast", "Auto-dismiss",
+          `<span class="icon filled">error</span>`,
+          `Unable to fetch data, logging you out..`,
+          null, null, null, false, null, null, 10000
+        );
       }
     }
+    populate();
   });
 });
