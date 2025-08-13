@@ -23,6 +23,7 @@
   --neutral: #888888;
   --neutral-dark: #363636;
   --tap-highlight: rgba(225,225,225, 0.08);
+  --elevation: rgba(0,0,0,0.2);
 
   --radius: 12px;
   --input-radius: 50px;
@@ -32,6 +33,7 @@
   --form-group-padding: 20px;
   --thumbnail-fluid-radius: 26px;
   --thumbnail-square-radius: 18px;
+  --card-elevation: 0 0 12px 6px var(--elevation);
   
   --icon-sm: 16px;
   --icon-md: 18px;
@@ -201,7 +203,8 @@ input {
   outline: 0;
 }
 
-.inp-text, .inp-select, .inp-date-select {
+.inp-text, .inp-select, .inp-date-select,
+.inp-location-select {
   position: relative;
   color: inherit;
   width: 100%;
@@ -216,11 +219,13 @@ input {
   text-align: left!important;
 }
 
-.inp-selected-option, .inp-selected-date {
+.inp-selected-option, .inp-selected-date,
+.inp-selected-location {
   color: inherit;
 }
 
-.inp-options, .inp-date-picker {
+.inp-options, .inp-date-picker, 
+.inp-location-picker {
   overflow-y: auto;
   position: absolute;
   top: 115%;
@@ -238,11 +243,12 @@ input {
 }
 
 .inp-select.active .inp-options,
-.inp-date-select.active .inp-date-picker {
+.inp-date-select.active .inp-date-picker,
+.inp-location-select.active .inp-location-picker {
   display: inherit;
 }
 
-.inp-option, .inp-date {
+.inp-option, .inp-date, .inp-location {
   width: 100%;
   height: 50px;
   padding: 0 1rem;
@@ -252,18 +258,48 @@ input {
   cursor: pointer;
 }
 
-.inp-option.selected, .inp-date.selected {
+.inp-option.selected, .inp-date.selected,
+.inp-location.selected {
   background: var(--accent);
 }
 
 .inp-option:hover, .inp-option:active,
-.inp-date:hover, .inp-date.active {
+.inp-date:hover, .inp-date.active,
+.inp-location:hover, .inp-location.active {
   opacity: 0.5;
 }
 
 .inp-option:not(:last-child),
-.inp-date:not(:last-child) {
+.inp-date:not(:last-child),
+.inp-location:not(:last-child) {
   border-bottom: 1px solid var(--accent);
+}
+
+.inp-location-cities {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  background: var(--neutral-dark);
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  box-shadow: var(--card-elevation);
+  display: none;
+  align-items: start;
+  flex-direction: column;
+  gap: 0;
+}
+
+.inp-location-picker:has(.inp-location-state.active)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom, var(--secondary) 10%, transparent);
+  width: 100%;
+  height: 100vh;
 }
 
 .inp-date-type {
@@ -277,6 +313,7 @@ input {
   min-height: auto;
   max-height: 70vh;
   border-radius: 0.75rem;
+  box-shadow: var(--card-elevation);
   display: none;
   align-items: start;
   flex-direction: column;
@@ -302,7 +339,9 @@ input {
 }
 
 .inp-date:hover:has(.inp-date-type.active),
-.inp-date.active:has(.inp-date-type.active) {
+.inp-date.active:has(.inp-date-type.active),
+.inp-location:hover:has(.inp-location-cities),
+.inp-location.active:has(.inp-location-cities) {
   opacity: 1;
 }
 

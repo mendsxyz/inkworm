@@ -1,5 +1,5 @@
 //scripts/index
-import { calculateAge, toggleTheme, setPageLoading, storageAvailable, notify, setLoading, setActive, toggleSidebar, navTo, switchThumbnails, inpSelect, inpDateSelect, popupCard, selectPlan } from './helpers.js';
+import { calculateAge, toggleTheme, setPageLoading, storageAvailable, notify, setLoading, setActive, toggleSidebar, navTo, switchThumbnails, inpSelect, inpDateSelect, inpLocationSelect, inpProfessionSelect, popupCard, selectPlan } from './helpers.js';
 
 const pageLoad = document.querySelector('.page-load');
 setPageLoading(pageLoad);
@@ -85,6 +85,27 @@ document.addEventListener('DOMContentLoaded', () => {
           null, null, null, false, null, null, 5000
         );
       }
+    });
+  });
+  
+  document.querySelectorAll('form .inp-location-select')?.forEach(el => {
+    el.addEventListener('click', (e) => {
+      document.querySelectorAll('form .inp-location-select')?.forEach(el => el.classList.remove('active'));
+      el.classList.add('active');
+      
+      document.addEventListener('click', function(e) {
+        if (!e.target.matches('.inp-location-select') &&
+          !e.target.matches('.inp-location-cities') &&
+          !e.target.matches('.inp-location')
+        ) el.classList.remove('active');
+      });
+      inpLocationSelect(e.target, '../scripts/profile-states-and-cities.json');
+    });
+  });
+  
+  document.querySelectorAll('form .inp-profession-select')?.forEach(el => {
+    el.addEventListener('click', (e) => {
+      inpProfessionSelect(e.target, '../scripts/professions.json');
     });
   });
   

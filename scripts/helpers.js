@@ -401,6 +401,62 @@ export function inpSelect(inpEl, isActive = false) {
   });
 }
 
+export async function inpLocationSelect(inpEl, jsonPath) {
+  if (!inpEl) return;
+  
+  const response = await fetch(jsonPath);
+  const data = await response.json();
+  
+  const selectedLocation = inpEl.querySelector('.inp-selected-location');
+  const locationPicker = inpEl.querySelector('.inp-location-picker');
+  locationPicker.innerHTML = ''; // Clear existing
+
+  data.forEach(stateObj => {
+    const stateEl = document.createElement('div');
+    stateEl.className = 'inp-location inp-location-state';
+    stateEl.dataset.type = 'state';
+    stateEl.dataset.value = stateObj.name;
+    stateEl.innerHTML = `<p>${stateObj.name}</p>`;
+    
+    locationPicker.appendChild(stateEl);
+    
+    // Cities (hidden until state clicked)
+    const inpLocationCities = document.createElement('div');
+    inpLocationCities.className = 'inp-location-cities';
+
+    // Populate cities
+    stateObj.cities.forEach(city => {
+      const cityEl = document.createElement('div');
+      cityEl.className = 'inp-location inp-location-city';
+      cityEl.dataset.value = city;
+      cityEl.textContent = city;
+      
+      inpLocationCities.appendChild(cityEl);
+      
+      cityEl.addEventListener('click', () => {
+        stateEl.classList.remove('active');
+        
+        selectedLocation.dataset.city = city;
+        selectedLocation.dataset.state = stateObj.name;
+        selectedLocation.dataset.selected = `${city}, ${stateObj.name}`;
+        selectedLocation.textContent = `${city}, ${stateObj.name}`;
+      });
+    });
+
+    stateEl.appendChild(inpLocationCities);
+
+    stateEl.addEventListener('click', () => {
+      stateEl.classList.add('active');
+      
+      locationPicker.querySelectorAll('.inp-location-cities').forEach(el => {
+        if (el !== inpLocationCities) el.style.display = 'none';
+      });
+      
+      inpLocationCities.style.display = inpLocationCities.style.display === 'inherit' ? 'none' : 'inherit';
+    });
+  });
+}
+
 function populateDateType(container, items, type = null) {
   container.innerHTML = '';
   
@@ -500,3 +556,20 @@ const dateEl = document.querySelector('.inp-date-select');
 inpDateSelectStep(dateEl, 'year');
 inpDateSelectStep(dateEl, 'month');
 inpDateSelectStep(dateEl, 'day');*/
+
+export function inpProfessionSelect(inpEl, jsonPath) {
+  if (!inpEl) return;
+  
+  const response = await fetch(jsonPath);
+  const data = await response.json();
+  
+  const inpProfessions = inpEl.querySelector('.inp-professions');
+  inpProfessions.innerHTML = ''; // Clear existing
+
+  data.forEach(profession => {
+    const professionEl = document.createElement('div');
+    professionEl.textContent = profession;
+    
+    inpProfessions.appendChild(professionEl);
+  });
+}
