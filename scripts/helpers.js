@@ -1,4 +1,68 @@
 // scripts/helpers
+export function getToday() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  return `${y}${m}${d}`;
+}
+
+function isLeapYear(year) {
+  return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+}
+
+function generateYears(startYear = 1980) {
+  const currentYear = parseInt(getToday().slice(0, 4), 10);
+  const years = [];
+  for (let y = startYear; y <= currentYear; y++) {
+    years.push(y.toString());
+  }
+  return years;
+}
+
+function generateMonths() {
+  const months = [];
+  for (let m = 1; m <= 12; m++) {
+    months.push(String(m).padStart(2, '0'));
+  }
+  return months;
+}
+
+function generateDays(month, year) {
+  if (!month || !year) return [];
+  month = parseInt(month, 10);
+  year = parseInt(year, 10);
+  let daysInMonth = 31;
+  if ([4, 6, 9, 11].includes(month)) daysInMonth = 30;
+  else if (month === 2) daysInMonth = isLeapYear(year) ? 29 : 28;
+  
+  const days = [];
+  for (let d = 1; d <= daysInMonth; d++) {
+    days.push(String(d).padStart(2, '0'));
+  }
+  return days;
+}
+
+export function calculateAge(birthday) {
+  if (!birthday || birthday.length !== 8) return null;
+  
+  const birthYear = parseInt(birthday.slice(0, 4), 10);
+  const birthMonth = parseInt(birthday.slice(4, 6), 10);
+  const birthDay = parseInt(birthday.slice(6, 8), 10);
+  
+  const today = new Date();
+  let age = today.getFullYear() - birthYear;
+  
+  // If birthday hasn't happened in current year
+  if (
+    today.getMonth() + 1 < birthMonth ||
+    (today.getMonth() + 1 === birthMonth && today.getDate() < birthDay)
+  ) {
+    age--;
+  }
+  return age;
+}
+
 export function toggleTheme(themeClass = 'light') {
   document.body.classList.toggle(themeClass);
 }
@@ -122,7 +186,7 @@ export function notify(
   
   if (type === 'Popup') {
     wrapper.querySelector('.popup-cta')?.addEventListener('click', () => ctaFunction());
-    wrapper.querySelector('.popup-close')?.addEventListener('click', () => { 
+    wrapper.querySelector('.popup-close')?.addEventListener('click', () => {
       runbackFunction();
       wrapper.remove();
     });
@@ -259,6 +323,18 @@ export function popupCard(title, body, isActive = false) {
   }
 }
 
+export function tabGroup(tabBtnEl, tabGroupEl) {
+  if (!tabBtnEl) return;
+  
+  tabGroupEl.querySelectorAll('.tab').forEach(tabEl => {
+    if (tabEl.dataset.tab === tabBtnEl.dataset.tab) {
+      tabEl.classList.add('active');
+    } else {
+      tabEl.classList.remove('active');
+    }
+  });
+}
+
 export function selectPlan(container, planEl, plan, isSelected = true) {
   if (!container) return;
   
@@ -310,3 +386,117 @@ export function selectPlan(container, planEl, plan, isSelected = true) {
     planEl.classList.add('active');
   }
 }
+
+export function inpSelect(inpEl, isActive = false) {
+  if (!inpEl) return;
+  
+  const selectedOption = inpEl.querySelector('.inp-selected-option');
+  inpEl.querySelectorAll('.inp-option').forEach(el => {
+    el.addEventListener('click', () => {
+      inpEl.querySelectorAll('.inp-option').forEach(el => el.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedOption.textContent = el.textContent;
+      selectedOption.dataset.selected = el.dataset.value.trim();
+    });
+  });
+}
+
+function populateDateType(container, items, type = null) {
+  container.innerHTML = '';
+  
+  const monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  
+  items.forEach(val => {
+    const div = document.createElement('div');
+    div.className = 'inp-option inp-date-value';
+    div.dataset.value = val;
+    
+    if (type === 'month') {
+      div.textContent = monthNames[parseInt(val, 10) - 1];
+    } else {
+      div.textContent = val;
+    }
+    container.appendChild(div);
+  });
+}
+
+export function inpDateSelect(inpEl, isActive = false) {
+  if (!inpEl) return;
+  
+  const selectedOption = inpEl.querySelector('.inp-selected-date');
+  inpEl.querySelectorAll('.inp-date').forEach(el => {
+    el.addEventListener('click', (e) => {
+      inpEl.querySelectorAll('.inp-date').forEach(el => el.classList.remove('selected'));
+      el.classList.add('selected');
+      
+      if (el.dataset.type === 'year') {
+        inpDateSelectStep(e.target, 'year');
+      } else if (el.dataset.type === 'month') {
+        inpDateSelectStep(e.target, 'month');
+      } else {
+        inpDateSelectStep(e.target, 'day');
+      }
+    });
+  });
+}
+
+function inpDateSelectStep(dateEl, type) {
+  dateEl.querySelector(`.inp-date-type[data-type='${type}']`)?.classList.add('active');
+  
+  document.querySelectorAll(`.inp-date-type[data-type='${type}'] .inp-date-value`)?.forEach(el => {
+    el.addEventListener('click', function(e) {
+      
+      document.querySelectorAll(`.inp-date-type[data-type='${type}'] .inp-date-value`)
+        ?.forEach(el => el.classList.remove('selected'));
+      el.classList.add('selected');
+      el.closest(`.inp-date-type[data-type='${type}']`)?.classList.remove('active');
+      
+      // GET selected
+      const inpDateSelect = e.target.closest('.inp-date-select');
+      const selectedEl = inpDateSelect.querySelector('.inp-selected-date');
+      selectedEl.dataset[type] = e.target.dataset.value.trim();
+      
+      if (type === 'month') {
+        const year = selectedEl.dataset.year;
+        const month = selectedEl.dataset.month;
+        
+        if (year && month) {
+          const dayContainer = inpDateSelect.querySelector(`.inp-date-type[data-type='day']`);
+          populateDateType(dayContainer, generateDays(month, year));
+          inpDateSelectStep(dateEl, 'day');
+        }
+      }
+      
+      updateSelectedDate(selectedEl);
+    });
+  });
+}
+
+function updateSelectedDate(selected) {
+  if (!selected) return;
+  
+  const year = selected.dataset.year || '';
+  const month = selected.dataset.month || '';
+  const day = selected.dataset.day || '';
+  
+  const textParts = [year, month, day].filter(Boolean);
+  selected.textContent = textParts.join('/');
+  selected.dataset.selected = `${year}${month}${day}`;
+}
+
+const yearContainer = document.querySelector(`.inp-date-type[data-type='year']`);
+const monthContainer = document.querySelector(`.inp-date-type[data-type='month']`);
+const dayContainer = document.querySelector(`.inp-date-type[data-type='day']`);
+
+populateDateType(yearContainer, generateYears(), 'year');
+populateDateType(monthContainer, generateMonths(), 'month');
+populateDateType(dayContainer, [], 'day'); // Populated when month is selected
+
+/* Bind initial year/month/day steps
+const dateEl = document.querySelector('.inp-date-select');
+inpDateSelectStep(dateEl, 'year');
+inpDateSelectStep(dateEl, 'month');
+inpDateSelectStep(dateEl, 'day');*/

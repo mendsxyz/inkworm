@@ -21,11 +21,12 @@
   --secondary: #2a2a2a;
   --accent: #ff6b6b;
   --neutral: #888888;
+  --neutral-dark: #363636;
   --tap-highlight: rgba(225,225,225, 0.08);
 
   --radius: 12px;
   --input-radius: 50px;
-  --input-padding: 18px 24px;
+  --input-padding: 15px 24px;
   --input-border: 0 0 0 1px var(--neutral);
   --utility-radius: 9px;
   --form-group-padding: 20px;
@@ -50,6 +51,11 @@
 h2 {
   text-align: center;
   font-family: 'Anton', sans-serif!important;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
 }
 
 .page-load {
@@ -116,6 +122,7 @@ body.popup-card-active > *:not(div:has(.popup-card)):not(.notification) {
 }
 
 input, button {
+  height: 60px;
   border-radius: var(--input-radius);
   padding: var(--input-padding);
   font-size: 1rem;
@@ -126,6 +133,188 @@ input, button {
 input {
   box-shadow: var(--input-border);
   padding-left: 50px;
+}
+
+.input-field {
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.input-field * {
+  flex-shrink: 0;
+}
+
+.input-field:not(:last-child) {
+  margin-bottom: 1.8rem;
+}
+
+.input-field label {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 0.5rem;
+}
+
+.input-field label * {
+  padding: 0;
+  margin: 0;
+}
+
+.input-field-group {
+  width: 100%;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.input-field-group button {
+  background: none;
+  color: inherit;
+  width: 100%;
+  border: 0;
+  box-shadow: var(--input-border);
+  border-radius: var(--input-radius);
+}
+
+.input-field-group button.primary {
+  background: var(--accent);
+}
+
+.inp {
+  cursor: pointer;
+  -webkit-tap-highlight-color: var(--tap-highlight);
+  border: 0;
+  outline: 0;
+}
+
+.inp * {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+}
+
+.inp-text, .inp-select, .inp-date-select {
+  position: relative;
+  color: inherit;
+  width: 100%;
+  height: 60px;
+  padding: var(--input-padding);
+  box-shadow: var(--input-border);
+  border-radius: var(--input-radius);
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+  text-align: left!important;
+}
+
+.inp-selected-option, .inp-selected-date {
+  color: inherit;
+}
+
+.inp-options, .inp-date-picker {
+  overflow-y: auto;
+  position: absolute;
+  top: 115%;
+  left: 0;
+  z-index: 2;
+  background: var(--neutral-dark);
+  width: 100%;
+  min-height: auto;
+  max-height: 70vh;
+  border-radius: 0.75rem;
+  display: none;
+  align-items: start;
+  flex-direction: column;
+  gap: 0;
+}
+
+.inp-select.active .inp-options,
+.inp-date-select.active .inp-date-picker {
+  display: inherit;
+}
+
+.inp-option, .inp-date {
+  width: 100%;
+  height: 50px;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  cursor: pointer;
+}
+
+.inp-option.selected, .inp-date.selected {
+  background: var(--accent);
+}
+
+.inp-option:hover, .inp-option:active,
+.inp-date:hover, .inp-date.active {
+  opacity: 0.5;
+}
+
+.inp-option:not(:last-child),
+.inp-date:not(:last-child) {
+  border-bottom: 1px solid var(--accent);
+}
+
+.inp-date-type {
+  overflow-y: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  background: var(--neutral-dark);
+  width: 100%;
+  min-height: auto;
+  max-height: 70vh;
+  border-radius: 0.75rem;
+  display: none;
+  align-items: start;
+  flex-direction: column;
+  gap: 0;
+}
+
+.inp-date-type.active {
+  display: inherit;
+}
+
+.inp-date-type .inp-date-value {
+  width: 100%;
+  height: 50px;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  cursor: pointer;
+}
+
+.inp-date-type .inp-date-value.selected {
+  background: var(--accent);
+}
+
+.inp-date:hover:has(.inp-date-type.active),
+.inp-date.active:has(.inp-date-type.active) {
+  opacity: 1;
+}
+
+.inp-date_set-values-btn {
+  background: var(--neutral);
+  width: 100%;
+  height: 50px;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  cursor: pointer;
 }
 
 button {
@@ -185,16 +374,32 @@ button.button-loading::after {
 
 .tab-group {
   position: relative;
-  background: red;
-  width: 100%;
-  height: 100vh;
+  overflow: auto;
+  background: var(--secondary);
+  width: 110%;
+  height: 60vh;
+  padding: 1rem;
+  margin-left: -5%;
+  margin-top: 1.5rem;
   display: flex;
-  align-items: start;
-  justify-content: center;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  border: 1px solid var(--neutral);
+  border-radius: 1.5rem;
 }
 
 .tab-group * {
   flex-shrink: 0;
+}
+
+.tab-group .tab:not(.tab.active) {
+  display: none;
+}
+
+.send-signal-tab,
+.update-profile-tab {
+  width: 100%;
 }
 
 a {
@@ -236,6 +441,12 @@ a {
   width: 50px;
   height: 50px;
   border-radius: 100%;
+}
+
+.thumbnail-avatar.standard {
+  width: 120px;
+  height: 120px;
+  margin: auto;
 }
 
 .thumbnail-cover {

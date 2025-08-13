@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
@@ -132,6 +133,65 @@
       border: 3px solid var(--accent);
     }
     
+    .user-signal-preview {
+      background: var(--tap-highlight);
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 2rem;
+      display: grid;
+      grid-auto-flow: column;
+      grid-template-columns: 70px 2fr 80px;
+      align-items: center;
+      justify-content: start;
+      border-radius: 0.75rem;
+    }
+    
+    .user-info-group {
+      position: relative;
+      padding: 0;
+      display: grid;
+      align-items: center;
+      justify-content: start;
+      grid-auto-flow: row;
+      text-align: left;
+      gap: 0.5rem;
+    }
+    
+    .user_view-profile-btn {
+      padding: 0;
+      margin-top: 0.5rem;
+      margin-bottom: 0;
+      cursor: pointer;
+    }
+    
+    .user_view-inks-btn {
+      padding: 0;
+      margin: 0;
+      text-decoration: underline;
+    }
+    
+    .user_hook-user-btn {
+      background: none;
+      color: inherit;
+      border: 1px solid var(--neutral);
+    }
+    
+    .user-ink-card {
+      position: absolute;
+      top: 125%;
+      left: 0;
+      z-index: 2;
+      background: var(--neutral-dark);
+      width: 310px;
+      min-height: 50px;
+      padding: 1rem;
+      border-radius: 0.75rem;
+    }
+    
+    .user-signal-form {
+      margin-top: 1rem;
+    }
+    
     @media screen and (min-width: 768px) {
       .sidebar-toggle-btn {
         display: none;
@@ -144,6 +204,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="page-load page-loading">
     <div class="spinner"></div>
@@ -226,16 +287,314 @@
     <h1>You have unlimited access to 100+ possible matches nearby</h1>
     
     <div class="group btn-group">
-      <button class="group-el send-signal-btn active">Send Signal</button>
-      <button class="group-el update-profile-btn">Update Profile</button>
+      <button class="group-el tab-btn send-signal-tab-btn active" data-tab="sendSignal">Send Signal</button>
+      <button class="group-el tab-btn update-profile-tab-btn" data-tab="updateProfile">Update Profile</button>
     </div>
     
     <div class="group tab-group">
-      <div class="group-el send-signal-tab active" data-group="sendSignal"></div>
-      <div class="group-el update-profile-tab" data-group="updateProfile"></div>
+      <div style="background: none;" class="tab send-signal-tab active" data-tab="sendSignal">
+        <p style="margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem;">
+          <span class="icon">info</span>
+          <span>Your signal will appear as:</span>
+        </p>
+        
+        <div class="user-signal-preview">
+          <div class="thumbnail-avatar">
+            <img src="../assets/static/pages/profile/profile-thumbnail-avatar.jpg" alt="me">
+          </div>
+          <div class="user-info-group">
+            <h3 class="user_view-profile-btn">
+              <span class="user-info" data-info="username">User,&nbsp;</span>
+              <span class="user-info" data-info="age">00</span>
+            </h3>
+            <p class="user_view-inks-btn">View Inks</p>
+            <div class="user-ink-card" data-uid="">&lt; -- No inks to display -- &gt;</div>
+          </div>
+          <button class="user_hook-user-btn">
+            <span class="icon">phishing</span>
+          </button>
+        </div>
+        
+        <form class="user-signal-form">
+          <div class="input-field">
+            <label for="select-gender">
+              <span class="icon">person</span>
+              <p>Who are you seeking to connect with?</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="select-gender">
+                <p class="inp-selected-option" data-selected="male">Male</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="male">Male</div>
+                  <div class="inp-option" data-value="female">Female</div>
+                  <div class="inp-option" data-value="bisexualMale">Bisexual Male</div>
+                  <div class="inp-option" data-value="bisexualFemale">Bisexual Female</div>
+                  <div class="inp-option" data-value="gay">Gay</div>
+                  <div class="inp-option" data-value="lesbian">Lesbian</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="select-intention">
+              <span class="icon">favorite</span>
+              <p>What do you need?</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="select-intention">
+                <p class="inp-selected-option" data-selected="casualMeetup">Casual meetup</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="casualMeetup">Casual meetup</div>
+                  <div class="inp-option" data-value="casualDating">Casual dating</div>
+                  <div class="inp-option" data-value="relationship">Relationship</div>
+                  <div class="inp-option" data-value="sexPartner">Sex partner</div>
+                  <div class="inp-option" data-value="fling">Fling (one-night-stand)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="select-age">
+              <span class="icon">date_range</span>
+              <p>Age range?</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="select-age">
+                <p class="inp-selected-option" data-selected="18x25">18 - 25</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="18x25">18 - 25</div>
+                  <div class="inp-option" data-value="25x30">25 - 30</div>
+                  <div class="inp-option" data-value="30x40">30 - 40</div>
+                  <div class="inp-option" data-value="40xAbove">40 and above</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="select-height">
+              <span class="icon">height</span>
+              <p>Height range?</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="select-height">
+                <p class="inp-selected-option" data-selected="4i8x5i4">4'8 - 5'4</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="4i8x5i4">4'8 - 5'4</div>
+                  <div class="inp-option" data-value="5i4x6i0">5'4 - 6'0</div>
+                  <div class="inp-option" data-value="6i0x6i5">6'0 - 6'5</div>
+                  <div class="inp-option" data-value="6i5xAbove">6'5 and above</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="select-body-type">
+              <span class="icon">frame_person</span>
+              <p>Body type?</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="select-body-type">
+                <p class="inp-selected-option" data-selected="skinny">Skinny</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="skinny">Skinny</div>
+                  <div class="inp-option" data-value="slim">Slim</div>
+                  <div class="inp-option" data-value="slimxthick">Slim-thick (feminine)</div>
+                  <div class="inp-option" data-value="athletic">Athletic</div>
+                  <div class="inp-option" data-value="muscular">Muscular</div>
+                  <div class="inp-option" data-value="thick">Thick (feminine)</div>
+                  <div class="inp-option" data-value="chubby">Chubby</div>
+                  <div class="inp-option" data-value="Fat">Fat</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="select-body-features">
+              <span class="icon">digital_wellbeing</span>
+              <p>Body features?</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="select-body-features">
+                <p class="inp-selected-option" data-selected="notApplicable">Not applicable</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="notApplicable">Not applicable</div>
+                  <div class="inp-option" data-value="mediumxbooty">Medium booty</div>
+                  <div class="inp-option" data-value="largexbooty">Large booty</div>
+                  <div class="inp-option" data-value="busty">Busty</div>
+                  <div class="inp-option" data-value="slimWaist">Slim waist</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="select-skin-type">
+              <span class="icon">palette</span>
+              <p>Skin type?</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="select-skin-type">
+                <p class="inp-selected-option" data-selected="caramel">Caramel</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="caramel">Caramel - brown</div>
+                  <div class="inp-option" data-value="ebony">Ebony - brown / black</div>
+                  <div class="inp-option" data-value="milk">Milk - fair</div>
+                  <div class="inp-option" data-value="light">Light - fair / albino</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="select-location">
+              <span class="icon">location_pin</span>
+              <p>Location range?</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="select-location">
+                <p class="inp-selected-option" data-selected="0x1km">&lt; 1km</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="0x1km">Less than 1km</div>
+                  <div class="inp-option" data-value="1kmx5km">1km - 5km</div>
+                  <div class="inp-option" data-value="5kmx10km">5km - 10km</div>
+                  <div class="inp-option" data-value="10kmxAbove">10km and above</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field-group" style="width: 100%; margin-top: 2rem;">
+            <button class="save-preferences-btn" type="button">Save Preferences</button>
+            <button class="primary send-signal-btn">Send Signal</button>
+          </div>
+        </form>
+      </div>
+      
+      <div style="background: none;" class="tab update-profile-tab" data-tab="updateProfile">
+        <form class="user-profile-form">
+          <div class="input-field">
+            <label for="upload-avatar">
+              <span class="icon">account_circle</span>
+              <p>Set a profile photo</p>
+            </label>
+            <div class="input-field-group">
+              <div class="thumbnail-avatar standard">
+                <input type="file" accept="*\image" id="hidden-thumb-data" value="" hidden>
+                <input type="text" id="base64Str" value="" hidden>
+                <img src="../assets/static/pages/profile/profile-thumbnail-avatar.jpg" alt="preview">
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="user_update-name">
+              <span class="icon">person_edit</span>
+              <p>Change name</p>
+            </label>
+            <div class="input-field-group">
+              <input class="inp inp-text" id="user_update-name">
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="set-age">
+              <span class="icon">date_range</span>
+              <p>Age</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-date-select" id="set-age">
+                <p class="inp-selected-date" data-year="" data-month="" data-day="" data-selected="">YYYY/MM/DD</p>
+                <div class="inp-date-picker">
+                  <div class="inp-date inp-date-year" data-type="year" data-value="">
+                    <p>Year</p>
+                    <div class="inp-date-type inp-date-years" data-type="year"></div>
+                  </div>
+                  <div class="inp-date inp-date-month" data-type="month" data-value="">
+                    <p>Month</p>
+                    <div class="inp-date-type inp-date-months" data-type="month"></div>
+                  </div>
+                  <div class="inp-date inp-date-day" data-type="day" data-value="">
+                    <p>Day</p>
+                    <div class="inp-date-type inp-date-days" data-type="day"></div>
+                  </div>
+                  <div class="inp-date_set-values-btn">
+                    <p>Set Age</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="set-gender">
+              <span class="icon">person</span>
+              <p>Gender</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="set-gender">
+                <p class="inp-selected-option" data-selected="male">Male</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="male">Male</div>
+                  <div class="inp-option" data-value="female">Female</div>
+                  <div class="inp-option" data-value="bisexualMale">Bisexual Male</div>
+                  <div class="inp-option" data-value="bisexualFemale">Bisexual Female</div>
+                  <div class="inp-option" data-value="gay">Gay</div>
+                  <div class="inp-option" data-value="lesbian">Lesbian</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="set-height">
+              <span class="icon">height</span>
+              <p>Height range?</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="set-height">
+                <p class="inp-selected-option" data-selected="4i8x5i4">4'8 - 5'4</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="4i8x5i4">4'8 - 5'4</div>
+                  <div class="inp-option" data-value="5i4x6i0">5'4 - 6'0</div>
+                  <div class="inp-option" data-value="6i0x6i5">6'0 - 6'5</div>
+                  <div class="inp-option" data-value="6i5xAbove">6'5 and above</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="set-skin-type">
+              <span class="icon">palette</span>
+              <p>Skin type</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="set-skin-type">
+                <p class="inp-selected-option" data-selected="caramel">Caramel</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="caramel">Caramel - brown</div>
+                  <div class="inp-option" data-value="ebony">Ebony - brown / black</div>
+                  <div class="inp-option" data-value="milk">Milk - fair</div>
+                  <div class="inp-option" data-value="light">Light - fair / albino</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="set-personality">
+              <span class="icon">psychology_alt</span>
+              <p>Personality</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="set-personality">
+                <p class="inp-selected-option" data-selected="introvert">Introvert</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="introvert">Introvert</div>
+                  <div class="inp-option" data-value="extrovert">Extrovert</div>
+                  <div class="inp-option" data-value="ambivert">Ambivert</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
   
   <script src="../scripts/index.js" type="module"></script>
+  <script src="../scripts/profile.js" type="module"></script>
 </body>
+
 </html>

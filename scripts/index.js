@@ -1,5 +1,5 @@
 //scripts/index
-import { toggleTheme, setPageLoading, storageAvailable, notify, setLoading, setActive, toggleSidebar, navTo, switchThumbnails, popupCard, selectPlan } from './helpers.js';
+import { calculateAge, toggleTheme, setPageLoading, storageAvailable, notify, setLoading, setActive, toggleSidebar, navTo, switchThumbnails, inpSelect, inpDateSelect, popupCard, selectPlan } from './helpers.js';
 
 const pageLoad = document.querySelector('.page-load');
 setPageLoading(pageLoad);
@@ -37,6 +37,54 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.link').forEach(el => {
     el.addEventListener('click', () => {
       navTo(el);
+    });
+  });
+  
+  document.querySelectorAll('form .inp-select')?.forEach(el => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll('form .inp-select')?.forEach(el => el.classList.remove('active'))
+      el.classList.add('active');
+      
+      document.addEventListener('click', function(e) {
+        if (!e.target.matches('.inp-select')) el.classList.remove('active');
+      });
+      inpSelect(el, true);
+    });
+  });
+  
+  document.querySelectorAll('form .inp-date-select')?.forEach(el => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll('form .inp-date-select')?.forEach(el => el.classList.remove('active'))
+      el.classList.add('active');
+      
+      document.addEventListener('click', function(e) {
+        if (!e.target.matches('.inp-date-select') &&
+          !e.target.matches('.inp-date') &&
+          !e.target.matches('.inp-date-value')
+        ) el.classList.remove('active');
+      });
+      inpDateSelect(el, true);
+    });
+  });
+  
+  document.querySelectorAll('form .inp-date_set-values-btn')?.forEach(el => {
+    el.addEventListener('click', (e) => {
+      const inpEl = e.target.closest('.inp-date-select');
+      const selectedEl = inpEl.querySelector('.inp-selected-date');
+      const birthdayValue = selectedEl?.dataset.selected;
+      
+      const age = calculateAge(birthdayValue);
+      
+      if (age !== null) {
+        selectedEl.textContent = `${age} years`;
+      } else {
+        notify(
+          "Toast", "Auto-dismiss",
+          `<span class="icon filled">error</span>`,
+          `Invalid or null birthday format!`,
+          null, null, null, false, null, null, 5000
+        );
+      }
     });
   });
   
