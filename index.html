@@ -1,12 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
-  <title>Inkworm</title>
+  <title>Meet your dreams in real-life | Inkworm</title>
   <link rel="stylesheet" href="../styles/main.css">
-  <link rel="stylesheet" href="../styles/pages/index.css">
+  <style type="text/css">
+    .index-header {
+      width: 100%;
+      padding: 1rem;
+    }
+    
+    .index-container {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 20rem 1rem 2rem;
+    }
+    
+    .index-container h1 {
+      margin: 2rem 0;
+      text-align: center;
+      line-height: 1.3;
+    }
+    
+    .index-container h2 {
+      margin: 2rem 0 1.5rem;
+      text-align: center;
+      line-height: 1.3;
+    }
+    
+    .index-container p {
+      text-align: center;
+      line-height: 1.5;
+    }
+    
+    .index-container .btn-group {
+      margin-top: 3rem;
+    }
+    
+    .steps {
+      width: 120%;
+      margin-left: -10%;
+      margin-top: 3rem;
+      display: grid;
+      grid-auto-flow: row;
+      gap: 3rem;
+      grid-template-columns: 100%;
+    }
+    
+    .steps .step {
+      background: rgba(225, 225, 225, 0.1);
+      height: 95px;
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      border-radius: 0.5rem;
+    }
+    
+    .steps .step-text {
+      border-left: 3px solid var(--accent);
+    }
+    
+    .steps .step-text p {
+      margin-left: 0.75rem;
+      text-align: left;
+    }
+    
+    .signup-container {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+  </style>
 </head>
+
 <body>
   <div class="page-load page-loading">
     <div class="spinner"></div>
@@ -25,7 +94,11 @@
     </div>
     
     <h1>Reach your person without breaking the bank</h1>
-    <p>Login or sign up to update your profile and start connecting with best possible matches!</p>
+    <p>
+      Have you ever thought of meeting the person of your dreams without much hassle?
+      We have that sorted out for you to ease up the tension or stress! — jump right in, send and receive signals
+      to see who might be tickling your inks 😉
+    </p>
     
     <div class="group btn-group">
       <button class="group-el link to-login-btn active" data-link="./pages/login.html">Login</button>
@@ -46,42 +119,38 @@
     
     <div class="steps">
       <div class="step">
-        <div class="number">1</div>
-        <div class="text">
-          <p>After signing up you must make sure to keep your profile updated with the latest improvements</p>
+        <div class="step-text">
+          <p>After signing up you must make sure to update your profile with authentic info</p>
         </div>
       </div>
-      
       <div class="step">
-        <div class="number">2</div>
-        <div class="text">
-          <p>On your dashboard, navigate to match room and send out a signal</p>
+        <div class="step-text">
+          <p>On your dashboard > `<a href="./pages/signup.html">send signal</a>` tab, you can customize your preferences before sending a signal</p>
         </div>
       </div>
-      
       <div class="step">
-        <div class="number">3</div>
-        <div class="text">
-          <p>Our system does a thorough matching process to pair you with the best fit while you wait</p>
+        <div class="step-text">
+          <p>Our system does a thorough matching process to suggest possible matches alongside notifying you of hooks</p>
         </div>
       </div>
-      
       <div class="step">
-        <div class="number">4</div>
-        <div class="text">
-          <p>In 5 - 30 minutes, you get to receive an email announcing your match with their socials attached</p>
+        <div class="step-text">
+          <p>In a few seconds, you are set to view suggested matches, hooks and start connecting with your pick</p>
         </div>
       </div>
-      
       <div class="step">
-        <div class="number">5</div>
-        <div class="text">
-          <p>If no match is found, try refining your profile for better chances of getting paired. Otherwise, enjoy!</p>
+        <div class="step-text">
+          <p>For a premium plan, you have access to unlimited signals, chat, meetup and lots of fun!</p>
         </div>
       </div>
+    </div>
+    
+    <div class="container">
+      <a href="./pages/signup.html" class="primary btn">Get Started</a>
     </div>
   </div>
   
   <script src="../scripts/index.js" type="module"></script>
 </body>
+
 </html>

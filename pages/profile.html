@@ -16,6 +16,38 @@
       background: linear-gradient(to bottom, var(--bg-dark) 5%, transparent);
     }
     
+    .index-container {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 2rem 1rem 2rem;
+    }
+    
+    .index-container h1 {
+      margin: 2rem 0;
+      text-align: center;
+      line-height: 1.3;
+    }
+    
+    .index-container h2 {
+      margin: 2rem 0 1.5rem;
+      text-align: center;
+      line-height: 1.3;
+    }
+    
+    .index-container p {
+      text-align: center;
+      line-height: 1.5;
+    }
+    
+    .index-header {
+      width: 100%;
+      padding: 1rem;
+    }
+    
+    .index-container .btn-group {
+      margin-top: 3rem;
+    }
+    
     .sidebar-toggle-btn {
       color: inherit;
       padding: 0!important;
@@ -33,15 +65,23 @@
     }
     
     .user-menu-bar {
-      background: var(--accent);
+      background: var(--tap-highlight);
       min-width: 100px;
       height: 50px;
-      padding: 0 1rem;
+      padding: 0 1.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
       justify-self: right;
       border-radius: 50px;
+    }
+    
+    .user-menu-bar[data-plan="free"] {
+      background: var(--neutral-dark);
+    }
+    
+    .user-menu-bar[data-plan="premium"] {
+      background: var(--accent);
     }
     
     .user-menu-bar button {
@@ -56,6 +96,7 @@
     }
     
     .user-sidebar {
+      overflow-y: auto;
       position: fixed;
       top: 0;
       left: -100%;
@@ -108,15 +149,16 @@
     }
     
     /* Popup cards */
-    .user-subscription h1 {
+    .user-subscription h3 {
       margin-bottom: 1rem;
     }
     
     .user-subscription-plan-list {
+      overflow-x: auto;
       display: flex;
       align-items: start;
-      justify-content: center;
-      flex-direction: column;
+      justify-content: start;
+      flex-direction: row;
       gap: 2rem;
     }
     
@@ -135,6 +177,8 @@
     
     .user-signal-preview {
       background: var(--tap-highlight);
+      filter: grayscale(100%);
+      -webkit-filter: grayscale(100%);
       width: 100%;
       padding: 0.5rem 0.75rem;
       margin-bottom: 2rem;
@@ -144,6 +188,7 @@
       align-items: center;
       justify-content: start;
       border-radius: 0.75rem;
+      pointer-events: none;
     }
     
     .user-info-group {
@@ -176,20 +221,111 @@
       border: 1px solid var(--neutral);
     }
     
-    .user-ink-card {
-      position: absolute;
-      top: 125%;
-      left: 0;
-      z-index: 2;
-      background: var(--neutral-dark);
-      width: 310px;
-      min-height: 50px;
-      padding: 1rem;
-      border-radius: 0.75rem;
-    }
-    
     .user-signal-form {
       margin-top: 1rem;
+    }
+    
+    .user-chatbar {
+      overflow: auto;
+      position: fixed;
+      top: 50%;
+      right: -100%;
+      transform: none;
+      z-index: 5;
+      background: var(--secondary);
+      width: 90%;
+      max-width: 500px;
+      height: 80vh;
+      max-height: 700px;
+      border: 1px solid var(--neutral);
+      border-radius: 1rem;
+      box-shadow: var(--card-elevation);
+    }
+    
+    .user-chatbar h2 {
+      margin: 1rem;
+      text-align: left;
+    }
+    
+    .user-chatbar .user_chat-tab-bar {
+      width: 100%;
+      padding: 0 1rem 1rem;
+      display: grid;
+      grid-auto-flow: column;
+      align-items: center;
+      justify-content: start;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--neutral);
+    }
+    
+    .chat-tab-btn {
+      min-width: 80px;
+      height: 40px;
+      border-radius: 40px;
+      padding: 0.15rem 1.5rem 0;
+      border: 1px solid var(--neutral);
+      outline: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .user-chatbar.active {
+      right: 50%;
+      transform: translateX(50%) translateY(-50%);
+    }
+    
+    .user-chatbar.active h2 {
+      text-align: center;
+    }
+    
+    .user_chat-tab-group {
+      position: relative;
+      overflow: auto;
+      background: var(--secondary);
+      width: 100%;
+      height: 60vh;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      flex-direction: column;
+    }
+    
+    .user_chat-tab-group .tab:not(.tab.active) {
+      display: none;
+    }
+    
+    .floating-action {
+      position: absolute;
+      bottom: 20%;
+      right: 0;
+      z-index: 4;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .floating-action-btn {
+      background: var(--accent);
+      color: inherit;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      border: none;
+      border-radius: 30px 0 0 30px;
+      box-shadow: 0 0 9px 3px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    
+    .floating-action-btn .icon {
+      font-size: 30px!important;
+      margin-top: 0.3rem;
     }
     
     @media screen and (min-width: 768px) {
@@ -200,6 +336,21 @@
       .user-sidebar {
         left: 0;
         max-width: 240px;
+      }
+      
+      .user-chatbar {
+        top: 3rem;
+        right: -26.5%;
+        transform: none;
+        width: 500px;
+      }
+      
+      .user-chatbar.active {
+        top: 50%;
+      }
+      
+      .floating-action:has(.open-chatbar-fab) {
+        display: none;
       }
     }
   </style>
@@ -218,11 +369,8 @@
       <img src="../assets/static/pages/profile/profile-thumbnail-avatar.jpg" alt="">
     </div>
     <h3 class="user-greeting user-populate-info" data-info="greeting">User</h3>
-    <div class="user-menu-bar">
-      <button class="to-subscription-btn" data-title="Subscription">
-        <span class="icon">favorite</span>
-        <span class="user-subscription-status user-populate-info" data-info="plan">Premium</span>
-      </button>
+    <div class="user-menu-bar" data-plan="">
+      <button class="user-subscription-btn" data-popup="subscription"></button>
     </div>
   </div>
   
@@ -231,50 +379,53 @@
     
     <div class="user-sidebar-navlink active">
       <span class="icon">apps</span>
-      <span>Dashboard</span>
+      <span class="title">Dashboard</span>
     </div>
-    <div class="user-sidebar-navlink" data-title="Primary">
-      <span class="icon">inbox</span>
-      <span>Primary</span>
+    <div class="user-sidebar-navlink" data-popup="incoming">
+      <span class="icon">inbox_text</span>
+      <span class="title">Incoming signals</span>
     </div>
-    <div class="user-sidebar-navlink" data-title="Sent">
-      <span class="icon">send</span>
-      <span>Sent</span>
+    <div class="user-sidebar-navlink" data-popup="sent">
+      <span class="icon">bubble</span>
+      <span class="title">Sent signals</span>
     </div>
-    <div class="user-sidebar-navlink" data-title="Updates">
+    <div class="user-sidebar-navlink" data-popup="incoming-hooks">
+      <span class="icon">call_received</span>
+      <span class="title">Incoming hooks</span>
+    </div>
+    <div class="user-sidebar-navlink" data-popup="sent-hooks">
+      <span class="icon">call_made</span>
+      <span class="title">Sent hooks</span>
+    </div>
+    <div class="user-sidebar-navlink" data-popup="matches">
+      <span class="icon">join_inner</span>
+      <span class="title">Found matches</span>
+    </div>
+    <div class="user-sidebar-navlink" data-popup="updates">
       <span class="icon">info</span>
-      <span>Updates</span>
+      <span class="title">Updates</span>
     </div>
-    <div class="user-sidebar-navlink" data-title="Subscription">
+    <div class="user-sidebar-navlink" data-popup="subscription">
       <span class="icon">outbox</span>
-      <span>Subscription</span>
+      <span class="title">Manage plan</span>
     </div>
     
-    <h4 class="user-sidebar-section-name">All Settings</h4>
+    <h4 class="user-sidebar-section-name">Settings</h4>
     
-    <div class="user-sidebar-navlink" data-title="Profile">
+    <div class="user-sidebar-navlink" data-popup="account">
       <span class="icon">account_circle</span>
-      <span>Profile</span>
+      <span class="title">Account</span>
     </div>
-    <div class="user-sidebar-navlink" data-title="Contact Information">
-      <span class="icon">message</span>
-      <span>Contact Info</span>
+    
+    <h4 class="user-sidebar-section-name">Product</h4>
+    
+    <div class="user-sidebar-navlink" data-link="help and feedback">
+      <span class="icon">help</span>
+      <span class="title">Help & feedback</span>
     </div>
-    <div class="user-sidebar-navlink" data-title="Account Management">
-      <span class="icon">settings</span>
-      <span>Account Mgt</span>
-    </div>
-    <div class="user-sidebar-navlink" data-title="Signal Range">
-      <span class="icon">wifi</span>
-      <span>Signal Range</span>
-    </div>
-    <div class="user-sidebar-navlink" data-title="Location">
-      <span class="icon">location_pin</span>
-      <span>Location</span>
-    </div>
-    <div class="user-sidebar-navlink" data-title="Security">
-      <span class="icon">shield</span>
-      <span>Security</span>
+    <div class="user-sidebar-navlink" data-link="about us">
+      <span class="icon">info</span>
+      <span class="title">About us</span>
     </div>
   </div>
   
@@ -284,15 +435,18 @@
       <img src="../assets/static/pages/index/index-thumbnail-cover.jpg" alt="hero_image">
     </div>
     
-    <h1>You have unlimited access to 100+ possible matches nearby</h1>
+    <div style="display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem;">
+      <h2>Dashboard</h2>
+      <p>You now have unlimited access to 100+ possible matches on signals everyday!</p>
+    </div>
     
     <div class="group btn-group">
-      <button class="group-el tab-btn send-signal-tab-btn active" data-tab="sendSignal">Send Signal</button>
-      <button class="group-el tab-btn update-profile-tab-btn" data-tab="updateProfile">Update Profile</button>
+      <button class="group-el tab-btn send-signal-tab-btn active" data-groupid="signal and profile" data-tab="send signal">Send Signal</button>
+      <button class="group-el tab-btn update-profile-tab-btn" data-groupid="signal and profile" data-tab="update profile">Update Profile</button>
     </div>
     
     <div class="group tab-group">
-      <div style="background: none;" class="tab send-signal-tab active" data-tab="sendSignal">
+      <div style="background: none;" class="tab send-signal-tab active" data-groupid="signal and profile" data-tab="send signal">
         <p style="margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem;">
           <span class="icon">info</span>
           <span>Your signal will appear as:</span>
@@ -308,10 +462,9 @@
               <span class="user-info" data-info="age">00</span>
             </h3>
             <p class="user_view-inks-btn">View Inks</p>
-            <div class="user-ink-card" data-uid="">&lt; -- No inks to display -- &gt;</div>
           </div>
           <button class="user_hook-user-btn">
-            <span class="icon">phishing</span>
+            <span class="icon">open_in_full</span>
           </button>
         </div>
         
@@ -327,8 +480,8 @@
                 <div class="inp-options">
                   <div class="inp-option selected" data-value="male">Male</div>
                   <div class="inp-option" data-value="female">Female</div>
-                  <div class="inp-option" data-value="bisexualMale">Bisexual Male</div>
-                  <div class="inp-option" data-value="bisexualFemale">Bisexual Female</div>
+                  <div class="inp-option" data-value="bisexual male">Bisexual Male</div>
+                  <div class="inp-option" data-value="bisexual female">Bisexual Female</div>
                   <div class="inp-option" data-value="gay">Gay</div>
                   <div class="inp-option" data-value="lesbian">Lesbian</div>
                 </div>
@@ -342,12 +495,12 @@
             </label>
             <div class="input-field-group">
               <div class="inp inp-select" id="select-intention">
-                <p class="inp-selected-option" data-selected="casualMeetup">Casual meetup</p>
+                <p class="inp-selected-option" data-selected="casual meetup">Casual meetup</p>
                 <div class="inp-options">
-                  <div class="inp-option selected" data-value="casualMeetup">Casual meetup</div>
-                  <div class="inp-option" data-value="casualDating">Casual dating</div>
+                  <div class="inp-option selected" data-value="casual meetup">Casual meetup</div>
+                  <div class="inp-option" data-value="casual dating">Casual dating</div>
                   <div class="inp-option" data-value="relationship">Relationship</div>
-                  <div class="inp-option" data-value="sexPartner">Sex partner</div>
+                  <div class="inp-option" data-value="sex partner">Sex partner</div>
                   <div class="inp-option" data-value="fling">Fling (one-night-stand)</div>
                 </div>
               </div>
@@ -360,12 +513,12 @@
             </label>
             <div class="input-field-group">
               <div class="inp inp-select" id="select-age">
-                <p class="inp-selected-option" data-selected="18x25">18 - 25</p>
+                <p class="inp-selected-option" data-selected="18 - 25">18 - 25</p>
                 <div class="inp-options">
-                  <div class="inp-option selected" data-value="18x25">18 - 25</div>
-                  <div class="inp-option" data-value="25x30">25 - 30</div>
-                  <div class="inp-option" data-value="30x40">30 - 40</div>
-                  <div class="inp-option" data-value="40xAbove">40 and above</div>
+                  <div class="inp-option selected" data-value="18 - 25">18 - 25</div>
+                  <div class="inp-option" data-value="25 - 30">25 - 30</div>
+                  <div class="inp-option" data-value="30 - 40">30 - 40</div>
+                  <div class="inp-option" data-value="40 - Above">40 and above</div>
                 </div>
               </div>
             </div>
@@ -377,12 +530,12 @@
             </label>
             <div class="input-field-group">
               <div class="inp inp-select" id="select-height">
-                <p class="inp-selected-option" data-selected="4i8x5i4">4'8 - 5'4</p>
+                <p class="inp-selected-option" data-selected="4i8 - 5i4">4'8 - 5'4</p>
                 <div class="inp-options">
-                  <div class="inp-option selected" data-value="4i8x5i4">4'8 - 5'4</div>
-                  <div class="inp-option" data-value="5i4x6i0">5'4 - 6'0</div>
-                  <div class="inp-option" data-value="6i0x6i5">6'0 - 6'5</div>
-                  <div class="inp-option" data-value="6i5xAbove">6'5 and above</div>
+                  <div class="inp-option selected" data-value="4i8 - 5i4">4'8 - 5'4</div>
+                  <div class="inp-option" data-value="5i4 - 6i0">5'4 - 6'0</div>
+                  <div class="inp-option" data-value="6i0 - 6i5">6'0 - 6'5</div>
+                  <div class="inp-option" data-value="6i5 - Above">6'5 and above</div>
                 </div>
               </div>
             </div>
@@ -398,7 +551,7 @@
                 <div class="inp-options">
                   <div class="inp-option selected" data-value="skinny">Skinny</div>
                   <div class="inp-option" data-value="slim">Slim</div>
-                  <div class="inp-option" data-value="slimxthick">Slim-thick (feminine)</div>
+                  <div class="inp-option" data-value="slim thick">Slim-thick (feminine)</div>
                   <div class="inp-option" data-value="athletic">Athletic</div>
                   <div class="inp-option" data-value="muscular">Muscular</div>
                   <div class="inp-option" data-value="thick">Thick (feminine)</div>
@@ -415,13 +568,13 @@
             </label>
             <div class="input-field-group">
               <div class="inp inp-select" id="select-body-features">
-                <p class="inp-selected-option" data-selected="notApplicable">Not applicable</p>
+                <p class="inp-selected-option" data-selected="not applicable">Not applicable</p>
                 <div class="inp-options">
-                  <div class="inp-option selected" data-value="notApplicable">Not applicable</div>
-                  <div class="inp-option" data-value="mediumxbooty">Medium booty</div>
-                  <div class="inp-option" data-value="largexbooty">Large booty</div>
+                  <div class="inp-option selected" data-value="not applicable">Not applicable</div>
+                  <div class="inp-option" data-value="medium booty">Medium booty</div>
+                  <div class="inp-option" data-value="large booty">Large booty</div>
                   <div class="inp-option" data-value="busty">Busty</div>
-                  <div class="inp-option" data-value="slimWaist">Slim waist</div>
+                  <div class="inp-option" data-value="slim waist">Slim waist</div>
                 </div>
               </div>
             </div>
@@ -450,12 +603,12 @@
             </label>
             <div class="input-field-group">
               <div class="inp inp-select" id="select-location">
-                <p class="inp-selected-option" data-selected="0x1km">&lt; 1km</p>
+                <p class="inp-selected-option" data-selected="0 - 1km">&lt; 1km</p>
                 <div class="inp-options">
-                  <div class="inp-option selected" data-value="0x1km">Less than 1km</div>
-                  <div class="inp-option" data-value="1kmx5km">1km - 5km</div>
-                  <div class="inp-option" data-value="5kmx10km">5km - 10km</div>
-                  <div class="inp-option" data-value="10kmxAbove">10km and above</div>
+                  <div class="inp-option selected" data-value="0 - 1km">Less than 1km</div>
+                  <div class="inp-option" data-value="1km - 5km">1km - 5km</div>
+                  <div class="inp-option" data-value="5km - 10km">5km - 10km</div>
+                  <div class="inp-option" data-value="10km - Above">10km and above</div>
                 </div>
               </div>
             </div>
@@ -467,7 +620,7 @@
         </form>
       </div>
       
-      <div style="background: none;" class="tab update-profile-tab" data-tab="updateProfile">
+      <div style="background: none;" class="tab update-profile-tab" data-groupid="signal and profile" data-tab="update profile">
         <form class="user-profile-form">
           <div class="input-field">
             <label for="upload-avatar">
@@ -476,8 +629,8 @@
             </label>
             <div class="input-field-group">
               <div class="thumbnail-avatar standard">
-                <input type="file" accept="*\image" id="hidden-thumb-data" value="" hidden>
-                <input type="text" id="base64Str" value="" hidden>
+                <input class="hidden" type="file" accept="*\image" id="hidden-thumb-data" value="" hidden>
+                <input class="hidden" type="text" id="base64Str" value="" hidden>
                 <img src="../assets/static/pages/profile/profile-thumbnail-avatar.jpg" alt="preview">
               </div>
             </div>
@@ -485,10 +638,19 @@
           <div class="input-field">
             <label for="user_update-name">
               <span class="icon">person_edit</span>
-              <p>Change name</p>
+              <p>Change name (once every 60 days)</p>
             </label>
             <div class="input-field-group">
-              <input class="inp inp-text" id="user_update-name">
+              <input class="inp inp-text" id="user_update-name" type="text">
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="user_update-phone">
+              <span class="icon">call</span>
+              <p>Phone number</p>
+            </label>
+            <div class="input-field-group">
+              <input class="inp inp-text" id="user_update-phone" type="tel">
             </div>
           </div>
           <div class="input-field">
@@ -498,7 +660,7 @@
             </label>
             <div class="input-field-group">
               <div class="inp inp-date-select" id="set-age">
-                <p class="inp-selected-date" data-year="" data-month="" data-day="" data-selected="">YYYY/MM/DD</p>
+                <p class="inp-selected-date" data-year="" data-month="" data-day="" data-selected="none">YYYY/MM/DD</p>
                 <div class="inp-date-picker">
                   <div class="inp-date inp-date-year" data-type="year" data-value="">
                     <p>Year</p>
@@ -526,14 +688,33 @@
             </label>
             <div class="input-field-group">
               <div class="inp inp-select" id="set-gender">
-                <p class="inp-selected-option" data-selected="male">Male</p>
+                <p class="inp-selected-option" data-selected="none">Select gender</p>
                 <div class="inp-options">
-                  <div class="inp-option selected" data-value="male">Male</div>
+                  <div class="inp-option" data-value="male">Male</div>
                   <div class="inp-option" data-value="female">Female</div>
-                  <div class="inp-option" data-value="bisexualMale">Bisexual Male</div>
-                  <div class="inp-option" data-value="bisexualFemale">Bisexual Female</div>
+                  <div class="inp-option" data-value="bisexual male">Bisexual Male</div>
+                  <div class="inp-option" data-value="bisexual female">Bisexual Female</div>
                   <div class="inp-option" data-value="gay">Gay</div>
                   <div class="inp-option" data-value="lesbian">Lesbian</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field">
+            <label for="set-sexual-trait">
+              <span class="icon">physical_therapy</span>
+              <p>Sexual trait</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="set-sexual-trait">
+                <p class="inp-selected-option" data-selected="regular">Regular</p>
+                <div class="inp-options">
+                  <div class="inp-option" data-value="regular">Regular</div>
+                  <div class="inp-option" data-value="kinky">Kinky</div>
+                  <div class="inp-option" data-value="fetish">Fetish</div>
+                  <div class="inp-option" data-value="sensual">Sensual</div>
+                  <div class="inp-option" data-value="monogamous">Monogamous</div>
+                  <div class="inp-option" data-value="demisexual">Demisexual</div>
                 </div>
               </div>
             </div>
@@ -545,12 +726,12 @@
             </label>
             <div class="input-field-group">
               <div class="inp inp-select" id="set-height">
-                <p class="inp-selected-option" data-selected="4i8x5i4">4'8 - 5'4</p>
+                <p class="inp-selected-option" data-selected="none">Select height range</p>
                 <div class="inp-options">
-                  <div class="inp-option selected" data-value="4i8x5i4">4'8 - 5'4</div>
-                  <div class="inp-option" data-value="5i4x6i0">5'4 - 6'0</div>
-                  <div class="inp-option" data-value="6i0x6i5">6'0 - 6'5</div>
-                  <div class="inp-option" data-value="6i5xAbove">6'5 and above</div>
+                  <div class="inp-option" data-value="4i8 - 5i4">4'8 - 5'4</div>
+                  <div class="inp-option" data-value="5i4 - 6i0">5'4 - 6'0</div>
+                  <div class="inp-option" data-value="6i0 - 6i5">6'0 - 6'5</div>
+                  <div class="inp-option" data-value="6i5 - Above">6'5 and above</div>
                 </div>
               </div>
             </div>
@@ -562,9 +743,9 @@
             </label>
             <div class="input-field-group">
               <div class="inp inp-select" id="set-skin-type">
-                <p class="inp-selected-option" data-selected="caramel">Caramel</p>
+                <p class="inp-selected-option" data-selected="none">Select skin type</p>
                 <div class="inp-options">
-                  <div class="inp-option selected" data-value="caramel">Caramel - brown</div>
+                  <div class="inp-option" data-value="caramel">Caramel - brown</div>
                   <div class="inp-option" data-value="ebony">Ebony - brown / black</div>
                   <div class="inp-option" data-value="milk">Milk - fair</div>
                   <div class="inp-option" data-value="light">Light - fair / albino</div>
@@ -579,9 +760,9 @@
             </label>
             <div class="input-field-group">
               <div class="inp inp-select" id="set-personality">
-                <p class="inp-selected-option" data-selected="introvert">Introvert</p>
+                <p class="inp-selected-option" data-selected="none">Select personality</p>
                 <div class="inp-options">
-                  <div class="inp-option selected" data-value="introvert">Introvert</div>
+                  <div class="inp-option" data-value="introvert">Introvert</div>
                   <div class="inp-option" data-value="extrovert">Extrovert</div>
                   <div class="inp-option" data-value="ambivert">Ambivert</div>
                 </div>
@@ -595,7 +776,7 @@
             </label>
             <div class="input-field-group">
               <div class="inp inp-location-select" id="set-location">
-                <p class="inp-selected-location" data-city="" data-state="" data-selected="">City, state</p>
+                <p class="inp-selected-location" data-city="" data-state="" data-selected="none">City, state</p>
                 <div class="inp-location-picker"></div>
               </div>
             </div>
@@ -607,12 +788,12 @@
             </label>
             <div class="input-field-group">
               <div class="inp inp-select" id="set-education-level">
-                <p class="inp-selected-option" data-selected="postGraduate">Post graduate</p>
+                <p class="inp-selected-option" data-selected="none">Select education level</p>
                 <div class="inp-options">
-                  <div class="inp-option selected" data-value="postGraduate">Post graduate</div>
-                  <div class="inp-option" data-value="underGraduate">Under graduate</div>
+                  <div class="inp-option" data-value="post graduate">Post graduate</div>
+                  <div class="inp-option" data-value="under graduate">Under graduate</div>
                   <div class="inp-option" data-value="college">College</div>
-                  <div class="inp-option" data-value="highSchool">High school</div>
+                  <div class="inp-option" data-value="high school">High school</div>
                 </div>
               </div>
             </div>
@@ -623,15 +804,107 @@
               <p>Profession</p>
             </label>
             <div class="input-field-group">
-              <div class="inp inp-select inp-profession-select" id="set-profession">
-                <p class="inp-selected-option" data-selected="introvert">Introvert</p>
-                <div class="inp-options inp-professions"></div>
+              <div class="inp inp-select" id="set-profession">
+                <p class="inp-selected-option" data-selected="none">Select profession</p>
+                <div class="inp-options">
+                  <div class="inp-option" data-value="accountant">Accountant</div>
+                  <div class="inp-option" data-value="doctor">Doctor</div>
+                  <div class="inp-option" data-value="nurse">Nurse</div>
+                  <div class="inp-option" data-value="engineer">Engineer</div>
+                  <div class="inp-option" data-value="pharmacist">Pharmacist</div>
+                  <div class="inp-option" data-value="lawyer">Lawyer</div>
+                  <div class="inp-option" data-value="lecturer">Lecturer</div>
+                  <div class="inp-option" data-value="architect">Architect</div>
+                  <div class="inp-option" data-value="it professional">IT Professional</div>
+                  <div class="inp-option" data-value="pilot">Pilot</div>
+                  <div class="inp-option" data-value="banker">Banker</div>
+                  <div class="inp-option" data-value="civil servant">Civil Servant</div>
+                  <div class="inp-option" data-value="teacher">Teacher</div>
+                  <div class="inp-option" data-value="business administrator">Business Administrator</div>
+                  <div class="inp-option" data-value="entrepreneur">Entrepreneur</div>
+                  <div class="inp-option" data-value="surveyor">Surveyor</div>
+                  <div class="inp-option" data-value="estate manager">Estate Manager</div>
+                  <div class="inp-option" data-value="journalist">Journalist</div>
+                  <div class="inp-option" data-value="actor">Actor</div>
+                  <div class="inp-option" data-value="musician">Musician</div>
+                  <div class="inp-option" data-value="poet">Poet</div>
+                  <div class="inp-option" data-value="athlete">Athlete</div>
+                  <div class="inp-option" data-value="gymnast">Gymnast</div>
+                  <div class="inp-option" data-value="fashion designer">Fashion Designer</div>
+                  <div class="inp-option" data-value="chef">Chef</div>
+                  <div class="inp-option" data-value="event planner">Event Planner</div>
+                  <div class="inp-option" data-value="software developer">Software Developer</div>
+                  <div class="inp-option" data-value="web developer">Web Developer</div>
+                  <div class="inp-option" data-value="mobile developer">Mobile Developer</div>
+                  <div class="inp-option" data-value="data analyst">Data Analyst</div>
+                  <div class="inp-option" data-value="cyber-security expert">Cyber-security Expert</div>
+                  <div class="inp-option" data-value="technical writer">Technical Writer</div>
+                  <div class="inp-option" data-value="content writer">Content Writer</div>
+                  <div class="inp-option" data-value="graphic designer">Graphic Designer</div>
+                  <div class="inp-option" data-value="photographer">Photographer</div>
+                  <div class="inp-option" data-value="content creator">Content Creator</div>
+                  <div class="inp-option" data-value="digital marketer">Digital Marketer</div>
+                  <div class="inp-option" data-value="project manager">Project Manager</div>
+                  <div class="inp-option" data-value="consultant">Consultant</div>
+                </div>
               </div>
             </div>
+          </div>
+          <div class="input-field">
+            <label for="set-mobility-status">
+              <span class="icon">detection_and_zone</span>
+              <p>Mobilty status?</p>
+            </label>
+            <div class="input-field-group">
+              <div class="inp inp-select" id="set-mobility-status">
+                <p class="inp-selected-option" data-selected="flexible">Flexible</p>
+                <div class="inp-options">
+                  <div class="inp-option selected" data-value="flexible">Flexible</div>
+                  <div class="inp-option" data-value="flexible nearby">Flexible nearby</div>
+                  <div class="inp-option" data-value="host">Host</div>
+                  <div class="inp-option" data-value="guest flexible">Guest flexible</div>
+                  <div class="inp-option" data-value="guest nearby">Guest nearby</div>
+                  <div class="inp-option" data-value="public meetup">Public meetup</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-field-group" style="width: 100%; margin-top: 2rem;">
+            <button class="primary update-profile-btn">Update Profile Info</button>
           </div>
         </form>
       </div>
     </div>
+  </div>
+  
+  <div class="user-chatbar">
+    <button class="close-chatbar-btn">
+      <span class="icon">collapse_content</button>
+    </button>
+    <h2>Chat</h2>
+    <div class="group user_chat-tab-bar">
+      <button class="group-el tab-btn chat-tab-btn active" data-groupid="chatbar" data-tab="all messages">All</button>
+      <button style="gap: 0.5rem" class="group-el tab-btn chat-tab-btn" data-groupid="chatbar" data-tab="unread messages">
+        <span class="unread-messages-count">0</span>
+        <span>Unread</span>
+      </button>
+    </div>
+    
+    <div class="group user_chat-tab-group">
+      <div class="tab user_all-messages-tab active" data-groupid="chatbar" data-tab="all messages">
+        <p class="null-text">&lt; -- You will see all messages here -- &gt;</p>
+      </div>
+      
+      <div class="tab user_unread-messages-tab" data-groupid="chatbar" data-tab="unread messages">
+        <p class="null-text">&lt; -- You will see unread messages here -- &gt;</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="floating-action">
+    <button class="floating-action-btn open-chatbar-fab">
+      <span class="icon">chat</span>
+    </button>
   </div>
   
   <script src="../scripts/index.js" type="module"></script>

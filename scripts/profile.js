@@ -14,3 +14,9 @@ updateProfileForm?.addEventListener('submit', async (e) => {
   e.preventDefault();
   setLoading(updateProfileBtn, true);
 });
+
+const chatTabGroupEl = document.querySelector('.user_chat-tab-group');
+
+document.querySelectorAll('.chat-tab-btn')?.forEach(btn => {
+  btn.addEventListener('click', () => tabGroup(btn, chatTabGroupEl));
+});

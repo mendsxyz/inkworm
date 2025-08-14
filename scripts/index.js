@@ -1,5 +1,5 @@
 //scripts/index
-import { calculateAge, toggleTheme, setPageLoading, storageAvailable, notify, setLoading, setActive, toggleSidebar, navTo, switchThumbnails, inpSelect, inpDateSelect, inpLocationSelect, inpProfessionSelect, popupCard, selectPlan } from './helpers.js';
+import { calculateAge, toggleTheme, setPageLoading, storageAvailable, notify, setLoading, setActive, toggleSidebar, navTo, switchThumbnails, inpSelect, inpDateSelect, inpLocationSelect, popupCard, selectPlan } from './helpers.js';
 
 const pageLoad = document.querySelector('.page-load');
 setPageLoading(pageLoad);
@@ -103,12 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  document.querySelectorAll('form .inp-profession-select')?.forEach(el => {
-    el.addEventListener('click', (e) => {
-      inpProfessionSelect(e.target, '../scripts/professions.json');
-    });
-  });
-  
   setTimeout(() => {
     setPageLoading(pageLoad, false);
   }, 2000);
@@ -121,36 +115,64 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const popupCardData = [
   {
-    "id": "Primary",
+    "id": "incoming",
     "content": `
-      <div class="user-primary">
-        <a id="top" hidden>top</a>
-        <p class="null-text">&lt; -- You will see all incoming signals or matches here -- &gt;</p>
+      <div class="user-incoming-signals">
+        <span id="card-top" hidden></span>
+        <p class="null-text">&lt; -- You will see all incoming signals here -- &gt;</p>
       </div>
     `
   },
   {
-    "id": "Sent",
+    "id": "sent",
     "content": `
-      <div class="user-sent">
-        <a id="top" hidden>top</a>
+      <div class="user-sent-signals">
+        <span id="card-top" hidden></span>
         <p class="null-text">&lt; -- You will see all sent out signals here -- &gt;</p>
       </div>
     `
   },
   {
-    "id": "Updates",
+    "id": "incoming-hooks",
+    "content": `
+      <div class="user-incoming-hooks">
+        <span id="card-top" hidden></span>
+        <p class="null-text">&lt; -- You will see all incoming hooks here -- &gt;</p>
+      </div>
+    `
+  },
+  {
+    "id": "sent-hooks",
+    "content": `
+      <div class="user-sent-hooks">
+        <span id="card-top" hidden></span>
+        <p class="null-text">&lt; -- You will see all sent hooks here -- &gt;</p>
+      </div>
+    `
+  },
+  {
+    "id": "matches",
+    "content": `
+      <div class="user-signal-matches">
+        <span id="card-top" hidden></span>
+        <p class="null-text">&lt; -- You will see signal matches here -- &gt;</p>
+      </div>
+    `
+  },
+  {
+    "id": "updates",
     "content": `
       <div class="user-updates">
-        <a id="top" hidden>top</a>
+        <span id="card-top" hidden></span>
         <p class="null-text">&lt; -- You will see all system and product updates here -- &gt;</p>
       </div>
     `
   },
   {
-    "id": "Subscription",
+    "id": "subscription",
     "content": `
       <div class="user-subscription">
+        <span id="card-top" hidden></span>
         <h3 style="display: flex; align-items: center; gap: 1rem;">
           <span class="icon">info</span>
           <span>You're currently on our <span class="user-subscription-status">Free</span> plan</span>
@@ -165,12 +187,38 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
     `
+  },
+  {
+    "id": "account",
+    "content": `
+      <div class="user-account-settings">
+        <span id="card-top" hidden></span>
+      </div>
+    `
   }];
   
-  document.querySelector('.to-subscription-btn')?.addEventListener('click', function() {
-    const title = this.dataset.title;
-    const matchedBody = popupCardData.find(obj => obj.id == title);
-    popupCard(title, matchedBody.content, true);
+  // TOGGLE_CHATBAR
+  document.addEventListener('click', function(e) {
+    if (e.target.matches('.user-chatbar')
+    || e.target.matches('.user_chat-tab-group')
+    || e.target.matches('.user_chat-tab-group *')
+    ) document.querySelector('.user-chatbar')?.classList.add('active');
+    
+    if (e.target.matches('.open-chatbar-fab')
+    || e.target.matches('.open-chatbar-fab *')
+    || e.target.matches('.user-chatbar')
+    ) document.querySelector('.user-chatbar')?.classList.add('active');
+    
+    if (e.target.matches('.close-chatbar-btn') 
+    || e.target.matches('.close-chatbar-btn *')
+    ) document.querySelector('.user-chatbar').classList.remove('active');
+  });
+  
+  document.querySelector('.user-subscription-btn')?.addEventListener('click', function() {
+    const popupCardId = this.dataset.popup;
+    const popupTitle = this.querySelector('.title').textContent;
+    const matchedBody = popupCardData.find(obj => obj.id == popupCardId);
+    popupCard(popupCardId, popupTitle, matchedBody.content, true);
     
     // SELECT_PLAN
     document.querySelector('.user-subscription-plan-list')?.addEventListener('click', function(e) {
@@ -181,10 +229,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
   document.querySelectorAll('.user-sidebar-navlink')?.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const title = btn.dataset.title;
-      const matchedBody = popupCardData.find(obj => obj.id == title);
-      popupCard(title, matchedBody.content, true);
+    btn.addEventListener('click', (e) => {
+      const popupCardId = btn.dataset.popup;
+      const popupTitle = btn.querySelector('.title').textContent;
+      const matchedBody = popupCardData.find(obj => obj.id == popupCardId);
+      popupCard(popupCardId, popupTitle, matchedBody.content, true);
       
       // SELECT_PLAN
       document.querySelector('.user-subscription-plan-list')?.addEventListener('click', function(e) {
@@ -192,6 +241,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         selectPlan(this, plan, plan.dataset.plan, plan.classList.contains('active') ? true : false);
       });
+    });
+  });
+  
+  document.querySelectorAll('.view-inks-btn')?.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const userInkCard = btn.nextElementSibling();
+      userInkCard.classList.add('active');
     });
   });
   
@@ -219,7 +275,30 @@ document.addEventListener('DOMContentLoaded', () => {
         if (checkData.exists) {
           const userName = checkData.user.name;
           const userUID = checkData.user.uid;
+          const userPlan = checkData.user.plan;
           
+          // SET_PLAN_STATUS
+          const freeStatusOnProfile = `
+            <span class="icon">favorite</span>
+            <span class="user-subscription-status user-populate-info" data-info="plan">Free</span>
+          `;
+          
+          const premiumStatusOnProfile = `
+            <span class="icon filled">favorite</span>
+            <span class="user-subscription-status user-populate-info" data-info="plan">Premium</span>
+          `;
+          
+          if (userPlan === 'free') {
+            document.querySelector('.user-menu-bar').dataset.plan = 'free';
+            document.querySelector('.user-menu-bar').innerHTML = freeStatusOnProfile;
+          } else if (userPlan === 'premium') {
+            document.querySelector('.user-menu-bar').dataset.plan = 'premium';
+            document.querySelector('.user-menu-bar').innerHTML = premiumStatusOnProfile;
+          } else {
+            document.querySelector('.user-menu-bar').innerHTML = '<p>Plan error</p>';
+          }
+          
+          // POPULATE_ALL_DYNAMIC_USER_INFO
           document.querySelectorAll('.user-populate-info').forEach(el => {
             if (el.dataset.info === 'greeting') el.textContent = `${userName ? 'Hi, ' + userName : 'User'}`;
           });
@@ -234,6 +313,9 @@ document.addEventListener('DOMContentLoaded', () => {
           null, null, null, false, null, null, 10000
         );
         
+        // REACT_TO_ERROR
+        document.querySelector('.user-menu-bar').innerHTML = '<p>Plan error</p>';
+        
         //document.body.style.pointerEvents = 'none';
       }
     } else {
@@ -243,6 +325,9 @@ document.addEventListener('DOMContentLoaded', () => {
         `Unable to fetch data, logging you out..`,
         null, null, null, false, null, null, 5000
       );
+      
+      // REACT_TO_ERROR
+      document.querySelector('.user-menu-bar').innerHTML = '<p>Plan error</p>';
       
       //document.body.style.pointerEvents = 'none';
     }

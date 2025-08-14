@@ -297,7 +297,7 @@ export function switchThumbnails(container) {
   }, 6000);
 }
 
-export function popupCard(title, body, isActive = false) {
+export function popupCard(id, title, body, isActive = false) {
   if (isActive) {
     const card = document.createElement('div');
     document.body.appendChild(card);
@@ -327,6 +327,10 @@ export function tabGroup(tabBtnEl, tabGroupEl) {
   if (!tabBtnEl) return;
   
   tabGroupEl.querySelectorAll('.tab').forEach(tabEl => {
+    if (tabEl.dataset.groupid !== tabBtnEl.dataset.groupid) return;
+    
+    tabEl.scrollTo(0, 0);
+    
     if (tabEl.dataset.tab === tabBtnEl.dataset.tab) {
       tabEl.classList.add('active');
     } else {
@@ -391,13 +395,16 @@ export function inpSelect(inpEl, isActive = false) {
   if (!inpEl) return;
   
   const selectedOption = inpEl.querySelector('.inp-selected-option');
-  inpEl.querySelectorAll('.inp-option').forEach(el => {
-    el.addEventListener('click', () => {
-      inpEl.querySelectorAll('.inp-option').forEach(el => el.classList.remove('selected'));
-      el.classList.add('selected');
-      selectedOption.textContent = el.textContent;
-      selectedOption.dataset.selected = el.dataset.value.trim();
-    });
+  
+  inpEl.addEventListener('click', (e) => {
+    const option = e.target.closest('.inp-option');
+    if (!option) return;
+    
+    inpEl.querySelectorAll('.inp-option').forEach(el => el.classList.remove('selected'));
+    option.classList.add('selected');
+    
+    selectedOption.textContent = option.textContent;
+    selectedOption.dataset.selected = option.dataset.value.trim();
   });
 }
 
@@ -410,7 +417,7 @@ export async function inpLocationSelect(inpEl, jsonPath) {
   const selectedLocation = inpEl.querySelector('.inp-selected-location');
   const locationPicker = inpEl.querySelector('.inp-location-picker');
   locationPicker.innerHTML = ''; // Clear existing
-
+  
   data.forEach(stateObj => {
     const stateEl = document.createElement('div');
     stateEl.className = 'inp-location inp-location-state';
@@ -423,7 +430,7 @@ export async function inpLocationSelect(inpEl, jsonPath) {
     // Cities (hidden until state clicked)
     const inpLocationCities = document.createElement('div');
     inpLocationCities.className = 'inp-location-cities';
-
+    
     // Populate cities
     stateObj.cities.forEach(city => {
       const cityEl = document.createElement('div');
@@ -442,10 +449,13 @@ export async function inpLocationSelect(inpEl, jsonPath) {
         selectedLocation.textContent = `${city}, ${stateObj.name}`;
       });
     });
-
+    
     stateEl.appendChild(inpLocationCities);
-
+    
     stateEl.addEventListener('click', () => {
+      document.querySelectorAll('.inp-location')?.forEach(el => el.classList.remove('selected'));
+      
+      stateEl.classList.add('selected');
       stateEl.classList.add('active');
       
       locationPicker.querySelectorAll('.inp-location-cities').forEach(el => {
@@ -458,6 +468,8 @@ export async function inpLocationSelect(inpEl, jsonPath) {
 }
 
 function populateDateType(container, items, type = null) {
+  if (!container) return;
+  
   container.innerHTML = '';
   
   const monthNames = [
@@ -549,27 +561,4 @@ const dayContainer = document.querySelector(`.inp-date-type[data-type='day']`);
 
 populateDateType(yearContainer, generateYears(), 'year');
 populateDateType(monthContainer, generateMonths(), 'month');
-populateDateType(dayContainer, [], 'day'); // Populated when month is selected
-
-/* Bind initial year/month/day steps
-const dateEl = document.querySelector('.inp-date-select');
-inpDateSelectStep(dateEl, 'year');
-inpDateSelectStep(dateEl, 'month');
-inpDateSelectStep(dateEl, 'day');*/
-
-export function inpProfessionSelect(inpEl, jsonPath) {
-  if (!inpEl) return;
-  
-  const response = await fetch(jsonPath);
-  const data = await response.json();
-  
-  const inpProfessions = inpEl.querySelector('.inp-professions');
-  inpProfessions.innerHTML = ''; // Clear existing
-
-  data.forEach(profession => {
-    const professionEl = document.createElement('div');
-    professionEl.textContent = profession;
-    
-    inpProfessions.appendChild(professionEl);
-  });
-}
+populateDateType(dayContainer, [], 'day'); // Populate when month is selected

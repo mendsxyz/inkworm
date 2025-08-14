@@ -4,9 +4,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes">
-  <title>Login / Inkworm</title>
+  <title>Login to your account | Inkworm</title>
   <link rel="stylesheet" href="../styles/main.css">
-  <link rel="stylesheet" href="../styles/pages/login.css">
+  <style type="text/css">
+    .login-container {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .login-container .nav-btn .icon {
+      font-size: 30px!important;
+    }
+    
+    .login-container h1 {
+      font-size: 2rem;
+      margin: 1rem 0 2rem;
+      line-height: 1.3;
+    }
+  </style>
 </head>
 
 <body>
@@ -15,27 +31,36 @@
     <h1>Hey, <br>Welcome <br>Back</h1>
     
     <form class="login-form">
-      <div class="form-group">
-        <span class="icon">email</span>
-        <input type="email" id="login-email" placeholder="Email Address" required>
+      <div class="input-field">
+        <label for="">
+          <span class="icon">mail</span>
+          <span>Email address</span>
+        </label>
+        <div class="input-field-group">
+          <input class="inp inp-text" type="email" id="login-email" required>
+        </div>
       </div>
-      <div class="form-group">
-        <span class="icon">lock</span>
-        <input type="password" id="login-password" placeholder="Password" required>
-        <button class="password__visibility-toggle-btn" type="button">
-          <span class="icon">visibility_off</span>
-        </button>
+      <div class="input-field">
+        <label for="">
+          <span class="icon">lock</span>
+          <span>Password</span>
+        </label>
+        <div class="input-field-group">
+          <input class="inp inp-text" type="password" id="login-password" required>
+          <button class="password_visibility-toggle-btn" type="button">
+            <span class="icon">visibility_off</span>
+          </button>
+        </div>
+      </div>
+      <div class="input-field-group" style="width: 100%; margin-top: 2rem;">
+        <button class="primary login-btn" type="button">Continue</button>
+        <button class="google-btn">Or Sign-in With Google</button>
       </div>
       
-      <button class="login-btn">Login</button>
-      <div class="form-label">or login with</div>
-      <button class="google-btn"><i class="fa fa-google" aria-hidden="true"></i> Google</button>
+      <p class="txt-align-ct" style="margin-top: 2rem;">Don't have an account? <a class="txt-wght-bold" href="./signup.html">Sign-up instead</a></p>
     </form>
-    
-    <p class="txt-align-ct">Don't have an account? <a class="txt-wght-bold" href="./signup.html">Sign Up</a></p>
   </div>
   
   <script src="../scripts/login.js" type="module"></script>
 </body>
-
 </html>
