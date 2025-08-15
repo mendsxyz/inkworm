@@ -322,7 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (checkData.exists) {
           const userName = checkData.user.name;
-          const userUID = checkData.user.uid;
+          const userEmail = checkData.user.email;
+          const userPhone = checkData.user.phone;
           const userPlan = checkData.user.plan;
           
           // SET_PLAN_STATUS
