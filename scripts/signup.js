@@ -10,9 +10,11 @@ signupForm.addEventListener("submit", async (e) => {
   setLoading(signupBtn, true);
   
   const email = signupForm.querySelector("#set-email").value.trim();
+  const phone = signupForm.querySelector("#set-phone-number").value.trim();
   const password = signupForm.querySelector("#set-password").value.trim();
   const name = signupForm.querySelector("#set-name").value.trim();
-  const uid = "uid-" + Math.floor(Math.random() * 100000000);
+  
+  // REGEX_HERE
   
   try {
     const checkRes = await fetch(
@@ -45,9 +47,9 @@ signupForm.addEventListener("submit", async (e) => {
     
     const formData = new FormData();
     formData.append("email", email);
+    formData.append("phone", phone);
     formData.append("password", password);
     formData.append("name", name);
-    formData.append("uid", uid);
     formData.append("plan", "free");
     
     const res = await fetch(
@@ -78,7 +80,7 @@ signupForm.addEventListener("submit", async (e) => {
       return;
     }
     
-    saveLocally(email, uid);
+    saveLocally(email);
     
     notify(
       "Toast", "Auto-dismiss",

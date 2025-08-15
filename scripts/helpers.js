@@ -193,14 +193,14 @@ export function notify(
   }
 }
 
-export function saveLocally(data1, data2) {
+export function saveLocally(data1) {
   if (!storageAvailable()) return;
   
   const inkwormLocalEnabled = JSON.parse(localStorage.getItem('inkworm-362L0oc18al-7eyn4wlEd')) || [];
   const existingData = inkwormLocalEnabled.find(obj => obj.email === data1);
   const localData = {
     email: data1,
-    uid: data2
+    timestamp: new Date().toLocaleString()
   }
   
   if (!existingData) inkwormLocalEnabled.push(localData);
@@ -391,6 +391,23 @@ export function selectPlan(container, planEl, plan, isSelected = true) {
   }
 }
 
+export async function handleImageUpload(file) {
+  const url = `https://api.cloudinary.com/v1_1/daqownbgm/image/upload`;
+  const preset = 'ml_default'; // must be unsigned
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', preset);
+
+  const res = await fetch(url, {
+    method: 'POST',
+    body: formData
+  });
+
+  const data = await res.json();
+  return data.secure_url; // image URL
+}
+
 export function inpSelect(inpEl, isActive = false) {
   if (!inpEl) return;
   
@@ -416,7 +433,7 @@ export async function inpLocationSelect(inpEl, jsonPath) {
   
   const selectedLocation = inpEl.querySelector('.inp-selected-location');
   const locationPicker = inpEl.querySelector('.inp-location-picker');
-  locationPicker.innerHTML = ''; // Clear existing
+  if (locationPicker) locationPicker.innerHTML = ''; // Clear existing
   
   data.forEach(stateObj => {
     const stateEl = document.createElement('div');
@@ -425,7 +442,7 @@ export async function inpLocationSelect(inpEl, jsonPath) {
     stateEl.dataset.value = stateObj.name;
     stateEl.innerHTML = `<p>${stateObj.name}</p>`;
     
-    locationPicker.appendChild(stateEl);
+    if (locationPicker) locationPicker.appendChild(stateEl);
     
     // Cities (hidden until state clicked)
     const inpLocationCities = document.createElement('div');

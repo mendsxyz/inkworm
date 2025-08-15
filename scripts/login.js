@@ -12,6 +12,8 @@ loginForm.addEventListener("submit", async (e) => {
   const email = loginForm.querySelector("#login-email").value.trim();
   const password = loginForm.querySelector("#login-password").value.trim();
   
+  // REGEX_HERE
+  
   try {
     const checkRes = await fetch(
       `https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec?email=${encodeURIComponent(email)}`,

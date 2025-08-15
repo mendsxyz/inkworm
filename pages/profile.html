@@ -358,7 +358,7 @@
 
 <body>
   <div class="page-load page-loading">
-    <div class="spinner"></div>
+    <div class="loading-spinner"></div>
   </div>
   
   <div class="index-header">
@@ -623,15 +623,16 @@
       <div style="background: none;" class="tab update-profile-tab" data-groupid="signal and profile" data-tab="update profile">
         <form class="user-profile-form">
           <div class="input-field">
-            <label for="upload-avatar">
+            <label>
               <span class="icon">account_circle</span>
               <p>Set a profile photo</p>
             </label>
             <div class="input-field-group">
               <div class="thumbnail-avatar standard">
-                <input class="hidden" type="file" accept="*\image" id="hidden-thumb-data" value="" hidden>
+                <input class="inp-image hidden" type="file" id="upload-image" hidden>
                 <input class="hidden" type="text" id="base64Str" value="" hidden>
-                <img src="../assets/static/pages/profile/profile-thumbnail-avatar.jpg" alt="preview">
+                <img class="upload-image-preview" src="../assets/static/pages/profile/profile-thumbnail-avatar.jpg" alt="preview">
+                <label class="image-upload-trigger_btn" for="upload-image"><span class="icon">camera</span></label>
               </div>
             </div>
           </div>

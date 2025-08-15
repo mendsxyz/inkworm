@@ -1,5 +1,5 @@
 //scripts/index
-import { calculateAge, toggleTheme, setPageLoading, storageAvailable, notify, setLoading, setActive, toggleSidebar, navTo, switchThumbnails, inpSelect, inpDateSelect, inpLocationSelect, popupCard, selectPlan } from './helpers.js';
+import { calculateAge, toggleTheme, setPageLoading, storageAvailable, notify, setLoading, setActive, toggleSidebar, navTo, switchThumbnails, handleImageUpload, inpSelect, inpDateSelect, inpLocationSelect, popupCard, selectPlan } from './helpers.js';
 
 const pageLoad = document.querySelector('.page-load');
 setPageLoading(pageLoad);
@@ -40,6 +40,54 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
+  // IMAGE_UPLOAD
+  document.querySelectorAll("input[type='file'].inp-image").forEach(el => {
+    el.addEventListener("change", async function(e) {
+      const inpRoot = el.closest(".thumbnail-avatar");
+      const base64StringEl = inpRoot.querySelector("#base64Str");
+      const imgPreview = inpRoot.querySelector(".upload-image-preview");
+      
+      const uploadTimeSpinner = `<div class="image-upload loading-spinner"></div>`;
+      const resetImgBtn = `<span class="reset-image-upload_btn icon">close</span>`;
+      
+      // PARSE_UPLOADED_FILE
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      imgPreview.style.display = "none";
+      inpRoot.insertAdjacentHTML("beforeend", uploadTimeSpinner);
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        setImage(e.target.result, imgPreview);
+      };
+      reader.readAsDataURL(file);
+      
+      // SEND_TO_CLOUDINARY
+      const uploadedUrl = await handleImageUpload(file);
+      
+      // SET_NEW_URL
+      base64StringEl.value = uploadedUrl;
+      setImage(uploadedUrl, imgPreview);
+      
+      inpRoot.querySelector(".image-upload.loading-spinner")?.remove();
+      inpRoot.insertAdjacentHTML("beforeend", resetImgBtn);
+      imgPreview.style.display = "inherit";
+      imgPreview.classList.add("upload-done");
+      
+      // RESET_AVATAR_UPLOAD
+      document.querySelector(".reset-image-upload_btn")?.addEventListener("click", function() {
+        inp.value = "";
+        imgPreview.style.display = "none";
+        imgPreview.classList.remove("upload-done");
+        this.remove();
+      });
+    });
+  });
+  
+  function setImage(content, img) { img.src = content }
+  
+  // SELECT_INPUT
   document.querySelectorAll('form .inp-select')?.forEach(el => {
     el.addEventListener('click', () => {
       document.querySelectorAll('form .inp-select')?.forEach(el => el.classList.remove('active'))
@@ -199,18 +247,18 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // TOGGLE_CHATBAR
   document.addEventListener('click', function(e) {
-    if (e.target.matches('.user-chatbar')
-    || e.target.matches('.user_chat-tab-group')
-    || e.target.matches('.user_chat-tab-group *')
+    if (e.target.matches('.user-chatbar') ||
+      e.target.matches('.user_chat-tab-group') ||
+      e.target.matches('.user_chat-tab-group *')
     ) document.querySelector('.user-chatbar')?.classList.add('active');
     
-    if (e.target.matches('.open-chatbar-fab')
-    || e.target.matches('.open-chatbar-fab *')
-    || e.target.matches('.user-chatbar')
+    if (e.target.matches('.open-chatbar-fab') ||
+      e.target.matches('.open-chatbar-fab *') ||
+      e.target.matches('.user-chatbar')
     ) document.querySelector('.user-chatbar')?.classList.add('active');
     
-    if (e.target.matches('.close-chatbar-btn') 
-    || e.target.matches('.close-chatbar-btn *')
+    if (e.target.matches('.close-chatbar-btn') ||
+      e.target.matches('.close-chatbar-btn *')
     ) document.querySelector('.user-chatbar').classList.remove('active');
   });
   

@@ -90,7 +90,7 @@ p {
   opacity: 1;
 }
 
-.page-load .spinner {
+.page-load .loading-spinner {
   width: 18px;
   height: 18px;
   border: 2px solid var(--accent);
@@ -482,6 +482,50 @@ input {
   cursor: pointer;
 }
 
+.image-upload.loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 18px;
+  height: 18px;
+  margin: auto;
+  border: 2px solid var(--accent);
+  border-top-color: transparent;
+  border-radius: 100%;
+  animation: 0.6s spinner-c linear infinite;
+}
+
+.image-upload-trigger_btn {
+  position: absolute;
+  bottom: 0;
+  right: 34%;
+  background: var(--accent);
+  color: inherit;
+  width: 35px;
+  height: 35px;
+  border: 3px solid var(--secondary);
+  border-radius: 100%;
+  display: flex;
+  align-items: center!important;
+  justify-content: center!important;
+}
+
+.reset-image-upload_btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background: var(--tap-highlight);
+  color: inherit;
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .tab-group {
   position: relative;
   overflow: auto;
@@ -861,6 +905,12 @@ body:has(.notification-popup)>*:not(.notification) {
 }
 
 @keyframes spinner-b {
+  to {
+    transform: translateX(-50%) translateY(-50%) rotate(360deg);
+  }
+}
+
+@keyframes spinner-c {
   to {
     transform: translateX(-50%) translateY(-50%) rotate(360deg);
   }
