@@ -321,10 +321,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkData = await checkRes.json();
         
         if (checkData.exists) {
+          const userPlan = checkData.user.plan;
           const userName = checkData.user.name;
           const userEmail = checkData.user.email;
           const userPhone = checkData.user.phone;
-          const userPlan = checkData.user.plan;
+          const userAge = checkData.user.age;
+          const userGender = checkData.user.gender;
+          const userSexualTrait = checkData.user.sexual_trait;
+          const userHeight = checkData.user.height;
           
           // SET_PLAN_STATUS
           const freeStatusOnProfile = `
@@ -351,8 +355,13 @@ document.addEventListener('DOMContentLoaded', () => {
           document.querySelectorAll('.user-populate-info').forEach(el => {
             if (el.dataset.info === 'greeting') el.textContent = `${userName ? 'Hi, ' + userName : 'User'}`;
             
-            if (el.id === 'user_update-name') el.value = `${userName} ? ${userName} : ''`;
-            if (el.id === 'user_update-phone') el.value = `${userPhone} ? ${userPhone} : ''`;
+            if (el.id === 'user-name') el.value = `${userName ? userName : ''}`;
+            if (el.id === 'user-phone') el.value = `${userPhone ? userPhone : ''}`;
+            if (el.id === 'user-age') el.textContent = `${userAge ? userAge : 'YYYY/MM/DD'}`;
+            if (el.id === 'user-gender') el.textContent = `${userGender ? userGender : 'Male'}`;
+            if (el.id === 'user-sexual-trait') el.textContent = `${userSexualTrait ? userSexualTrait : 'Regular'}`;
+            if (el.id === 'user-height') el.textContent = `${userHeight ? userHeight : 'Select height range'}`;
+            
           });
         }
         
