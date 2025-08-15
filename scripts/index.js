@@ -350,6 +350,9 @@ document.addEventListener('DOMContentLoaded', () => {
           // POPULATE_ALL_DYNAMIC_USER_INFO
           document.querySelectorAll('.user-populate-info').forEach(el => {
             if (el.dataset.info === 'greeting') el.textContent = `${userName ? 'Hi, ' + userName : 'User'}`;
+            
+            if (el.id === 'user_update-name') el.value = `${userName} ? ${userName} : ''`;
+            if (el.id === 'user_update-phone') el.value = `${userPhone} ? ${userPhone} : ''`;
           });
         }
         
