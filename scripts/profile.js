@@ -9,8 +9,8 @@ document.querySelectorAll('.tab-btn')?.forEach(btn => {
 });
 
 // PROFILE_UPDATE_TAB
-const updateProfileForm = document.querySelector('.user-profile-update-form');
-const updateProfileBtn = document.querySelector('.user-update-profile-btn');
+const updateProfileForm = document.querySelector('.user-profile-update_form');
+const updateProfileBtn = document.querySelector('.user-profile-update_btn');
 
 if (updateProfileForm) {
   const profileInfoParameters = {
