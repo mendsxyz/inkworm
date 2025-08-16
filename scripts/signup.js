@@ -1,5 +1,5 @@
 //scripts/signup
-import { storageAvailable, notify, saveLocally, redirect, setLoading } from './helpers.js';
+import { generateVcode, storageAvailable, notify, saveLocally, redirect, setLoading } from './helpers.js';
 
 const path = "https://inkworm.vercel.app/pages/";
 const signupForm = document.querySelector('.signup-form');
@@ -12,6 +12,7 @@ signupForm.addEventListener("submit", async (e) => {
   const email = signupForm.querySelector("#set-email").value.trim();
   const phone = signupForm.querySelector("#set-phone-number").value.trim();
   const password = signupForm.querySelector("#set-password").value.trim();
+  const emailVcode = generateVcode(10);
   const name = signupForm.querySelector("#set-name").value.trim();
   
   // REGEX_HERE
@@ -49,6 +50,7 @@ signupForm.addEventListener("submit", async (e) => {
     formData.append("email", email);
     formData.append("phone", phone);
     formData.append("password", password);
+    formData.append("email_vcode", emailVcode);
     formData.append("name", name);
     formData.append("plan", "free");
     
@@ -89,7 +91,7 @@ signupForm.addEventListener("submit", async (e) => {
       null, null, null, false, null, null, 10000
     );
     
-    redirect('200', `${path}/profile.html`, 1000);
+    redirect('200', `${path}/email-verification.html`, 1000);
   } catch (err) {
     notify(
       "Popup", "Dismissible", null, null,

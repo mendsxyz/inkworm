@@ -1,5 +1,5 @@
 //scripts/index
-import { calculateAge, toggleTheme, setPageLoading, storageAvailable, notify, setLoading, setActive, toggleSidebar, navTo, switchThumbnails, handleImageUpload, inpSelect, inpDateSelect, inpLocationSelect, popupCard, selectPlan } from './helpers.js';
+import { getFutureDate, calculateAge, toggleTheme, setPageLoading, storageAvailable, notify, setLoading, setActive, toggleSidebar, navTo, switchThumbnails, handleImageUpload, inpSelect, inpDateSelect, inpLocationSelect, popupCard, selectPlan } from './helpers.js';
 
 const pageLoad = document.querySelector('.page-load');
 setPageLoading(pageLoad);
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const userAge = checkData.user.age;
           const userGender = checkData.user.gender;
           const userSexualTrait = checkData.user.sexual_trait;
-          const userHeight = checkData.user.height;
+          const userHeight = checkData.user.height_range;
           const userSkinType = checkData.user.skin_type;
           const userPersonality = checkData.user.personality;
           const userLocation = checkData.user.location;
@@ -361,18 +361,53 @@ document.addEventListener('DOMContentLoaded', () => {
           document.querySelectorAll('.user-populate-info').forEach(el => {
             if (el.dataset.info === 'greeting') el.textContent = `${userName ? 'Hi, ' + userName : 'User'}`;
             
+            // PREVENT_FURTHER_NAME_CHANGES_TILL_60_DAYS: Check profile.js
             if (el.id === 'user-name') el.value = `${userName ? userName : ''}`;
+            
+            // SENSITIVE_PROFILE_INFO_VERIFIABLE
             if (el.id === 'user-phone') el.value = `${userPhone ? userPhone : ''}`;
-            if (el.id.includes('user-age')) el.textContent = `${userAge ? userAge : 'YYYY/MM/DD'}`;
-            if (el.id === 'user-gender') el.textContent = `${userGender ? userGender : 'Select gender'}`;
-            if (el.id === 'user-sexual-trait') el.textContent = `${userSexualTrait ? userSexualTrait : 'Regular'}`;
-            if (el.id === 'user-height') el.textContent = `${userHeight ? userHeight : 'Select height range'}`;
-            if (el.id === 'user-skin-type') el.textContent = `${userSkinType ? userSkinType : 'Select skin type'}`;
-            if (el.id === 'user-personality') el.textContent = `${userPersonality ? userPersonality : 'Select personality'}`;
-            if (el.id === 'user-location') el.textContent = `${userLocation ? userLocation : 'City, State'}`;
-            if (el.id === 'user-education-level') el.textContent = `${userEducationLevel ? userEducationLevel : 'Select education level'}`;
-            if (el.id === 'user-profession') el.textContent = `${userProfession ? userProfession : 'Select profession'}`;
-            if (el.id === 'user-mobility-status') el.textContent = `${userMobilityStatus ? userMobilityStatus : 'Flexible'}`;
+            
+            // OTHER_PROFILE_INFO
+            if (el.id === 'user-age') {
+              el.textContent = `${userAge ? userAge : 'YYYY/MM/DD'}`;
+              el.dataset.selected = userAge.toLowerCase();
+            }
+            if (el.id === 'user-gender') {
+              el.textContent = `${userGender ? userGender : 'Select gender'}`;
+              el.dataset.selected = userGender.toLowerCase();
+            }
+            if (el.id === 'user-sexual-trait') {
+              el.textContent = `${userSexualTrait ? userSexualTrait : 'Regular'}`;
+              el.dataset.selected = userSexualTrait.toLowerCase();
+            }
+            if (el.id === 'user-height') {
+              el.textContent = `${userHeight ? userHeight : 'Select height range'}`;
+              el.dataset.selected = userHeight.toLowerCase();
+            }
+            if (el.id === 'user-skin-type') {
+              el.textContent = `${userSkinType ? userSkinType : 'Select skin type'}`;
+              el.dataset.selected = userSkinType.toLowerCase();
+            }
+            if (el.id === 'user-personality') {
+              el.textContent = `${userPersonality ? userPersonality : 'Select personality'}`;
+              el.dataset.selected = userPersonality.toLowerCase();
+            }
+            if (el.id === 'user-location') {
+              el.textContent = `${userLocation ? userLocation : 'City, State'}`;
+              el.dataset.selected = userLocation.toLowerCase().replace(',', '');
+            }
+            if (el.id === 'user-education-level') {
+              el.textContent = `${userEducationLevel ? userEducationLevel : 'Select education level'}`;
+              el.dataset.selected = userEducationLevel.toLowerCase();
+            }
+            if (el.id === 'user-profession') {
+              el.textContent = `${userProfession ? userProfession : 'Select profession'}`;
+              el.dataset.selected = userProfession.toLowerCase();
+            }
+            if (el.id === 'user-mobility-status') {
+              el.textContent = `${userMobilityStatus ? userMobilityStatus : 'Flexible'}`;
+              el.dataset.selected = userMobilityStatus.toLowerCase();
+            }
             
             const inpFieldGroup = el.closest('.input-field-group');
             if (inpFieldGroup) {

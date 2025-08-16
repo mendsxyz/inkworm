@@ -1,6 +1,52 @@
 // scripts/helpers
+export function generateVcode(length) {
+  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let result = '';
+  
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
+  }
+  
+  return result;
+}
+
+export function startCountdown(durationInSeconds, displayElementId, onCountdownEnd) {
+  let timer = durationInSeconds;
+  const display = document.getElementById(displayElementId);
+  
+  const intervalId = setInterval(() => {
+    const minutes = Math.floor(timer / 60);
+    const seconds = timer % 60;
+    
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(seconds).padStart(2, '0');
+    
+    display.textContent = `${formattedMinutes}:${formattedSeconds}`;
+    
+    if (timer > 0) {
+      timer--;
+    } else {
+      clearInterval(intervalId);
+      if (typeof onCountdownEnd === 'function') {
+        onCountdownEnd();
+      }
+    }
+  }, 1000);
+}
+
 export function getToday() {
   const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  return `${y}${m}${d}`;
+}
+
+export function getFutureDate(daysToAdd) {
+  const now = new Date();
+  now.setDate(now.getDate() + daysToAdd);
+  
   const y = now.getFullYear();
   const m = String(now.getMonth() + 1).padStart(2, '0');
   const d = String(now.getDate()).padStart(2, '0');
