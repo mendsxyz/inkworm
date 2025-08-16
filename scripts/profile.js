@@ -33,6 +33,25 @@ if (updateProfileForm) {
     e.preventDefault();
     setLoading(updateProfileBtn, true);
     
+    if (profileInfoParameters.age.dataset.selected === ''
+    || profileInfoParameters.gender.dataset.selected === ''
+    || profileInfoParameters.sexualTrait.dataset.selected === ''
+    || profileInfoParameters.heightRange.dataset.selected === ''
+    || profileInfoParameters.personality.dataset.selected === ''
+    || profileInfoParameters.location.dataset.selected === ''
+    || profileInfoParameters.educationLevel.dataset.selected === ''
+    || profileInfoParameters.profession.dataset.selected === ''
+    || profileInfoParameters.mobilityStatus.dataset.selected === ''
+    ) {
+      notify(
+        "Toast", "Auto-dismiss",
+        `<span class="icon filled">error</span>`,
+        `Some profile info parameters missing!`,
+        null, null, null, false, null, null, 10000
+      );
+      return;
+    }
+    
     try {
       const formData = new FormData();
       formData.append("avatar", profileInfoParameters.avatar.src);
