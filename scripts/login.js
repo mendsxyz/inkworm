@@ -43,7 +43,7 @@ loginForm.addEventListener("submit", async (e) => {
       return;
     }
     
-    if (checkData.password === password) {
+    if (checkData.user.password === password) {
       if (!checkLocallySaved(email)) {
         notify(
           "Popup", "Dismissible", null, null,
