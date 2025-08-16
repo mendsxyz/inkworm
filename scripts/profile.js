@@ -1,5 +1,10 @@
 //scripts/profile
-import { setLoading, tabGroup } from './helpers.js';
+import { notify, setLoading, tabGroup } from './helpers.js';
+
+// LOCAL_DATA 
+const inkwormLocalEnabled = JSON.parse(localStorage.getItem('inkworm-362L0oc18al-7eyn4wlEd')) || [];
+const existingData = inkwormLocalEnabled.find(obj => obj.email !== undefined);
+const savedEmailId = existingData?.email;
 
 // TAB_GROUPS
 const tabGroupEl = document.querySelector('.tab-group');
@@ -33,32 +38,47 @@ if (updateProfileForm) {
     e.preventDefault();
     setLoading(updateProfileBtn, true);
     
-    if (profileInfoParameters.age.dataset.selected === ''
-    || profileInfoParameters.gender.dataset.selected === ''
-    || profileInfoParameters.sexualTrait.dataset.selected === ''
-    || profileInfoParameters.heightRange.dataset.selected === ''
-    || profileInfoParameters.personality.dataset.selected === ''
-    || profileInfoParameters.location.dataset.selected === ''
-    || profileInfoParameters.educationLevel.dataset.selected === ''
-    || profileInfoParameters.profession.dataset.selected === ''
-    || profileInfoParameters.mobilityStatus.dataset.selected === ''
+    if (profileInfoParameters.age.dataset.selected === '' ||
+      profileInfoParameters.gender.dataset.selected === '' ||
+      profileInfoParameters.sexualTrait.dataset.selected === '' ||
+      profileInfoParameters.heightRange.dataset.selected === '' ||
+      profileInfoParameters.personality.dataset.selected === '' ||
+      profileInfoParameters.location.dataset.selected === '' ||
+      profileInfoParameters.educationLevel.dataset.selected === '' ||
+      profileInfoParameters.profession.dataset.selected === '' ||
+      profileInfoParameters.mobilityStatus.dataset.selected === ''
     ) {
       notify(
         "Toast", "Auto-dismiss",
         `<span class="icon filled">error</span>`,
-        `Some profile info parameters missing!`,
+        `Some profile info parameters are missing!`,
         null, null, null, false, null, null, 10000
       );
+      setLoading(updateProfileBtn, false);
       return;
     }
     
     try {
+      const checkRes = await fetch(
+        `https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec?email=${encodeURIComponent(savedEmailId)}`,
+        {
+          method: "GET"
+        }
+      );
+      
+      if (!checkRes.ok) {
+        throw new Error(`HTTP error! Status: ${checkRes.status}`);
+      }
+      
+      const checkData = await checkRes.json();
+      
       const formData = new FormData();
+      formData.append("email", savedEmailId);
       formData.append("avatar", profileInfoParameters.avatar.src);
       formData.append("age", profileInfoParameters.age.textContent.trim());
       formData.append("gender", profileInfoParameters.gender.textContent.trim());
       formData.append("sexual_trait", profileInfoParameters.sexualTrait.textContent.trim());
-      formData.append("height", profileInfoParameters.height.textContent.trim());
+      formData.append("height_range", profileInfoParameters.heightRange.textContent.trim());
       formData.append("skin_type", profileInfoParameters.skinType.textContent.trim());
       formData.append("personality", profileInfoParameters.personality.textContent.trim());
       formData.append("location", profileInfoParameters.location.textContent.trim());
@@ -70,7 +90,7 @@ if (updateProfileForm) {
         "https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec",
         {
           method: "POST",
-          body: formData,
+          body: formData
         }
       );
       

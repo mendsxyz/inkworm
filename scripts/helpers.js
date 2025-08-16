@@ -197,13 +197,19 @@ export function saveLocally(data1) {
   if (!storageAvailable()) return;
   
   const inkwormLocalEnabled = JSON.parse(localStorage.getItem('inkworm-362L0oc18al-7eyn4wlEd')) || [];
-  const existingData = inkwormLocalEnabled.find(obj => obj.email === data1);
+  const existingData = inkwormLocalEnabled.find(obj => obj.email !== undefined);
   const localData = {
     email: data1,
     timestamp: new Date().toLocaleString()
   }
   
-  if (!existingData) inkwormLocalEnabled.push(localData);
+  if (!existingData) { 
+    inkwormLocalEnabled.push(localData);
+  } else {
+    existingData.email = data1;
+    existingData.timestamp = new Date().toLocaleString();
+  }
+  
   localStorage.setItem('inkworm-362L0oc18al-7eyn4wlEd', JSON.stringify(inkwormLocalEnabled));
 }
 

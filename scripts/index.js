@@ -363,8 +363,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (el.id === 'user-name') el.value = `${userName ? userName : ''}`;
             if (el.id === 'user-phone') el.value = `${userPhone ? userPhone : ''}`;
-            if (el.id === 'user-age') el.textContent = `${userAge ? userAge : 'YYYY/MM/DD'}`;
-            if (el.id === 'user-gender') el.textContent = `${userGender ? userGender : 'Male'}`;
+            if (el.id.includes('user-age')) el.textContent = `${userAge ? userAge : 'YYYY/MM/DD'}`;
+            if (el.id === 'user-gender') el.textContent = `${userGender ? userGender : 'Select gender'}`;
             if (el.id === 'user-sexual-trait') el.textContent = `${userSexualTrait ? userSexualTrait : 'Regular'}`;
             if (el.id === 'user-height') el.textContent = `${userHeight ? userHeight : 'Select height range'}`;
             if (el.id === 'user-skin-type') el.textContent = `${userSkinType ? userSkinType : 'Select skin type'}`;
@@ -402,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
       notify(
         "Toast", "Auto-dismiss",
         `<span class="icon filled">error</span>`,
-        `Unable to fetch data, logging you out..`,
+        `No saved email data, logging you out..`,
         null, null, null, false, null, null, 5000
       );
       

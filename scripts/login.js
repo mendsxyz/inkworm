@@ -1,5 +1,5 @@
 //scripts/login
-import { checkLocallySaved, notify, redirect, setLoading } from './helpers.js';
+import { saveLocally, checkLocallySaved, notify, redirect, setLoading } from './helpers.js';
 
 const path = 'https://inkworm.vercel.app/pages/';
 const loginForm = document.querySelector('.login-form');
@@ -43,19 +43,22 @@ loginForm.addEventListener("submit", async (e) => {
       return;
     }
     
-    if (checkData.user.password === password) {
-      if (!checkLocallySaved(email)) {
+    if (password.includes(checkData.user.password)) {
+      if (checkLocallySaved(email) === false) {
+        if (email.includes(checkData.user.email)) saveLocally(email);
+        
         notify(
           "Popup", "Dismissible", null, null,
           `<span class="icon filled">error</span>`,
-          "Data not found",
-          "For a better experience, please enable cookies and site data in your browser settings and then try signing up",
+          "Suspicious login detected",
+          "Seems you're either logging in from a new browser or your data was not saved initially. Please enable cookies and site data and try again.",
           true, { close: "Got it", cta: null },
           () => {},
           () => {
             document.querySelector('.notification')?.remove();
           }
         );
+        
         return;
       }
       
