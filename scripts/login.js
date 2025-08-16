@@ -18,7 +18,7 @@ loginForm.addEventListener("submit", async (e) => {
     const checkRes = await fetch(
       `https://script.google.com/macros/s/AKfycbxMFdY_PIWkpjhCk-U35O_hxBlfXNR8oSCpnxxm32s3TgBuPftU4IXhWdkAxweYq1Ee-g/exec?email=${encodeURIComponent(email)}`,
       {
-        method: "GET",
+        method: "GET"
       }
     );
     
@@ -41,7 +41,9 @@ loginForm.addEventListener("submit", async (e) => {
         }
       );
       return;
-    } else if (checkData.password == password) {
+    }
+    
+    if (checkData.password === password) {
       if (!checkLocallySaved(email)) {
         notify(
           "Popup", "Dismissible", null, null,
