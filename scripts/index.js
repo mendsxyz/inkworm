@@ -329,6 +329,12 @@ document.addEventListener('DOMContentLoaded', () => {
           const userGender = checkData.user.gender;
           const userSexualTrait = checkData.user.sexual_trait;
           const userHeight = checkData.user.height;
+          const userSkinType = checkData.user.skin_type;
+          const userPersonality = checkData.user.personality;
+          const userLocation = checkData.user.location;
+          const userEducationLevel = checkData.user.education_level;
+          const userProfession = checkData.user.profession;
+          const userMobilityStatus = checkData.user.mobility_status;
           
           // SET_PLAN_STATUS
           const freeStatusOnProfile = `
@@ -361,7 +367,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (el.id === 'user-gender') el.textContent = `${userGender ? userGender : 'Male'}`;
             if (el.id === 'user-sexual-trait') el.textContent = `${userSexualTrait ? userSexualTrait : 'Regular'}`;
             if (el.id === 'user-height') el.textContent = `${userHeight ? userHeight : 'Select height range'}`;
+            if (el.id === 'user-skin-type') el.textContent = `${userSkinType ? userSkinType : 'Select skin type'}`;
+            if (el.id === 'user-personality') el.textContent = `${userPersonality ? userPersonality : 'Select personality'}`;
+            if (el.id === 'user-location') el.textContent = `${userLocation ? userLocation : 'City, State'}`;
+            if (el.id === 'user-education-level') el.textContent = `${userEducationLevel ? userEducationLevel : 'Select education level'}`;
+            if (el.id === 'user-profession') el.textContent = `${userProfession ? userProfession : 'Select profession'}`;
+            if (el.id === 'user-mobility-status') el.textContent = `${userMobilityStatus ? userMobilityStatus : 'Flexible'}`;
             
+            const inpFieldGroup = el.closest('.input-field-group');
+            if (inpFieldGroup) {
+              const inpToPreSelect = inpFieldGroup.querySelectorAll('.inp-option');
+              inpToPreSelect.forEach(toSelect => {
+                if (toSelect.textContent === el.textContent) toSelect.classList.add('selected');
+              });
+            }
           });
         }
         

@@ -165,7 +165,7 @@ button.button-loading::after {
   transform: translateX(-50%) translateY(-50%);
   width: 18px;
   height: 18px;
-  border: 2px solid var(--secondary);
+  border: 2px solid var(--bg-light);
   border-top-color: transparent;
   border-radius: 100%;
   animation: spinner-b 0.6s linear infinite;

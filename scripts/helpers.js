@@ -451,7 +451,7 @@ export async function inpLocationSelect(inpEl, jsonPath) {
     // Populate cities
     stateObj.cities.forEach(city => {
       const cityEl = document.createElement('div');
-      cityEl.className = 'inp-location inp-location-city';
+      cityEl.className = 'inp-option inp-location inp-location-city';
       cityEl.dataset.value = city;
       cityEl.textContent = city;
       
